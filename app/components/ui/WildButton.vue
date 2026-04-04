@@ -57,6 +57,10 @@ const tag = computed(() => {
   overflow: hidden;
 }
 
+.wild-btn:hover {
+  transform: scale(1.05);
+}
+
 .wild-btn__content {
   position: relative;
   z-index: 1;
@@ -83,7 +87,7 @@ const tag = computed(() => {
 }
 
 .wild-btn:hover .wild-btn__arrow svg {
-  transform: translate(2px, -2px);
+  transform: rotate(45deg) scale(1.05);
 }
 
 /* ── Sizes ── */
@@ -110,7 +114,6 @@ const tag = computed(() => {
 
 .wild-btn--primary:hover {
   background: var(--white);
-  box-shadow: var(--shadow-glow);
 }
 
 .wild-btn--primary .wild-btn__arrow {

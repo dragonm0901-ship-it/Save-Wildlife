@@ -442,6 +442,7 @@ import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGsapAnimations } from '~/composables/useGsapAnimations'
+import { staticServices, staticEvents, staticTestimonials, staticBlogPosts } from '~/data/homepage'
 
 if (process.client) {
   gsap.registerPlugin(ScrollTrigger)
@@ -449,7 +450,7 @@ if (process.client) {
 
 useHead({ title: null })
 
-const { fadeUp, staggerChildren, clipReveal } = useGsapAnimations()
+const { fadeUp, staggerChildren, clipReveal, refresh } = useGsapAnimations()
 
 // ── Hero Slider ──
 const currentSlide = ref(0)
@@ -541,10 +542,11 @@ function resetSlideTimer() {
 }
 
 // ── API Fetching ──
-const { data: services } = await useFetch('/api/services', { default: () => [] })
-const { data: events } = await useFetch('/api/events', { default: () => [] })
-const { data: testimonials } = await useFetch('/api/testimonials', { default: () => [] })
-const { data: blogPosts } = await useFetch('/api/blog', { default: () => [] })
+// ── Static Data (Previously API Fetching) ──
+const services = ref(staticServices)
+const events = ref(staticEvents)
+const testimonials = ref(staticTestimonials)
+const blogPosts = ref(staticBlogPosts)
 
 const activeService = ref(0)
 
@@ -591,7 +593,7 @@ function handleNewsletterSubmit() {
 }
 
 // ── Blog Data ──
-// blogPosts fetched via useFetch above
+// blogPosts defined as static refs above
 
 // ── Lifecycle ──
 onMounted(async () => {
@@ -608,9 +610,10 @@ onMounted(async () => {
   setTimeout(() => {
     fadeUp('.about-preview__info > *', { stagger: 0.1, trigger: '.about-preview' })
     clipReveal('.about-preview__image img', { trigger: '.about-preview__image' })
-    staggerChildren('.events-grid', '.event-card', { stagger: 0.15 })
     fadeUp('.donation-section__info > *', { stagger: 0.1, trigger: '.donation-section' })
-    staggerChildren('.blog-grid', '.blog-card', { stagger: 0.12 })
+    // Removed staggerChildren for events and blog to ensure they are visible immediately
+    // staggerChildren('.events-grid', '.event-card', { stagger: 0.15 })
+    // staggerChildren('.blog-grid', '.blog-card', { stagger: 0.12 })
     refresh() // Refresh ScrollTrigger to ensure triggers match new DOM positions
   }, 1200)
 })
@@ -963,10 +966,22 @@ onUnmounted(() => {
   color: var(--electric-lime);
 }
 
+.service-item--active .service-item__arrow svg,
+.service-item:hover .service-item__arrow svg {
+  transform: rotate(45deg) scale(1.05);
+}
+
 .service-item--active .service-item__arrow,
 .service-item:hover .service-item__arrow {
   opacity: 1;
-  transform: translateX(5px);
+}
+
+.service-item {
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.service-item:hover {
+  transform: scale(1.02);
 }
 
 .services-grid__image {
@@ -1504,8 +1519,16 @@ onUnmounted(() => {
   transition: color var(--duration-fast) ease;
 }
 
+.blog-card__read-more svg {
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+
 .blog-card:hover .blog-card__read-more {
   color: var(--jungle-dark);
+}
+
+.blog-card:hover .blog-card__read-more svg {
+  transform: rotate(45deg) scale(1.05);
 }
 
 .blog-section {

@@ -99,7 +99,7 @@ export default defineEventHandler(async (event) => {
       .select('*')
       .order('published_at', { ascending: false });
 
-    if (!error && data && data.length > 0) {
+    if (!error && data && Array.isArray(data) && data.length > 0) {
       return (data as any[]).map(post => ({
         ...post,
         image: post.image_url,
@@ -110,6 +110,7 @@ export default defineEventHandler(async (event) => {
     // Database unavailable — serve fallback content
   }
 
+  // Return fallback data if database is unavailable or empty
   return fallbackPosts.map(p => ({
     ...p,
     image: p.image_url,

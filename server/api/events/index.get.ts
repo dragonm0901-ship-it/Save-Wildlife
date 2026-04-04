@@ -105,7 +105,7 @@ export default defineEventHandler(async (event) => {
       .select('*')
       .order('event_date', { ascending: true });
 
-    if (!error && data && data.length > 0) {
+    if (!error && data && Array.isArray(data) && data.length > 0) {
       return (data as any[]).map(row => ({
         ...row,
         image: row.image_url,
@@ -116,6 +116,7 @@ export default defineEventHandler(async (event) => {
     // Database unavailable — serve fallback content
   }
 
+  // Return fallback data if database is unavailable or empty
   return fallbackEvents.map(e => ({
     ...e,
     image: e.image_url,

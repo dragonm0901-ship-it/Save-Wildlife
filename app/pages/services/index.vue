@@ -97,8 +97,25 @@ const { data: services, pending } = await useFetch('/api/services', {
 .service-row__title { font-size: var(--text-4xl); color: var(--charcoal); margin: var(--space-sm) 0 var(--space-md); font-family: var(--font-display); line-height: 1.1; }
 .service-row__content p { color: var(--charcoal-80); margin-bottom: var(--space-2xl); line-height: 1.7; font-size: var(--text-base); max-width: 540px; }
 
-.service-row__link { display: inline-flex; align-items: center; gap: var(--space-xs); font-family: var(--font-accent); font-size: var(--text-sm); font-weight: var(--weight-semibold); letter-spacing: 0.08em; text-transform: uppercase; color: var(--canopy-green); transition: color 0.3s ease; }
-.service-row:hover .service-row__link { color: var(--electric-lime); }
+.service-row__link svg {
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.service-row:hover .service-row__link {
+  color: var(--electric-lime);
+}
+
+.service-row:hover .service-row__link svg {
+  transform: rotate(45deg) scale(1.1);
+}
+
+.service-row {
+  transition: all var(--duration-base) var(--ease-out-expo);
+}
+
+.service-row:hover {
+  transform: scale(1.02);
+}
 
 .loading-state, .empty-state { text-align: center; padding: var(--space-5xl) 0; color: var(--charcoal-60); }
 

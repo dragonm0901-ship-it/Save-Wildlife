@@ -415,8 +415,7 @@ onUnmounted(() => {
   width: 24px;
   height: 24px;
   opacity: 0;
-  transform: translateX(-10px);
-  transition: all 300ms var(--ease-out-expo);
+  transition: all 400ms var(--ease-out-expo);
 }
 
 .nav-overlay__link-arrow svg {
@@ -426,7 +425,14 @@ onUnmounted(() => {
 
 .nav-overlay__link:hover .nav-overlay__link-arrow {
   opacity: 1;
-  transform: translateX(0);
+}
+
+.nav-overlay__link:hover .nav-overlay__link-arrow svg {
+  transform: rotate(45deg) scale(1.1);
+}
+
+.nav-overlay__link-arrow svg {
+  transition: transform 400ms var(--ease-out-expo);
 }
 
 .nav-overlay__footer {
