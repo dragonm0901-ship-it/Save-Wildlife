@@ -63,6 +63,38 @@ const fallbackEvents = [
     capacity: '12 guests', price: 'NPR 6,500 / person',
     image_url: 'https://images.unsplash.com/photo-1543326168-f99a9a3b608a?w=800&q=80',
   },
+  {
+    id: 9, slug: 'terai-tiger-corridor-expedition', title: 'Terai Tiger Corridor Expedition',
+    description: 'A rare opportunity to visit the vital wildlife corridors connecting Nepal\'s national parks. Learn about habitat restoration and meet the community members protecting these transit routes.',
+    category: 'EXPEDITION', location: 'Kailali Tiger Corridor',
+    event_date: '2027-01-20', start_time: '07:30', end_time: '17:30',
+    capacity: '10 guests', price: 'NPR 11,000 / person',
+    image_url: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=800&q=80',
+  },
+  {
+    id: 10, slug: 'gharial-crocodile-river-scout', title: 'Gharial Crocodile River Scout',
+    description: 'Join our river conservation team as they monitor the nesting sites of the critically endangered gharial crocodile. Help collect data on hatchlings and water quality.',
+    category: 'CONSERVATION', location: 'Narayani River Banks',
+    event_date: '2027-02-14', start_time: '06:30', end_time: '12:30',
+    capacity: '15 volunteers', price: 'Free for Members',
+    image_url: 'https://images.unsplash.com/photo-1504450874802-0ba2bcd659e0?w=800&q=80',
+  },
+  {
+    id: 11, slug: 'himalayan-mammal-census', title: 'Himalayan High-Altitude Mammal Census',
+    description: 'A multi-day expedition to count blue sheep and Himalayan tahr. This data is critical for understanding the prey base of the snow leopard.',
+    category: 'VOLUNTEER', location: 'Manang High Valleys',
+    event_date: '2027-03-25', start_time: '05:00', end_time: '18:00',
+    capacity: '20 volunteers', price: 'NPR 5,000 (covers gear)',
+    image_url: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80',
+  },
+  {
+    id: 12, slug: 'wildlife-art-nature-retreat', title: 'Wildlife Art & Nature Retreat',
+    description: 'Spend a weekend sketching and painting the vistas of the Terai. Guided by professional wildlife artists, this retreat combines creative expression with deep forest immersion.',
+    category: 'RETREAT', location: 'Tharu Community Lodge, Chitwan',
+    event_date: '2027-04-18', start_time: '09:00', end_time: '16:00 (Sun)',
+    capacity: '25 guests', price: 'NPR 18,500 / person',
+    image_url: 'https://images.unsplash.com/photo-1433086566608-bc7941235122?w=800&q=80',
+  },
 ];
 
 export default defineEventHandler(async (event) => {

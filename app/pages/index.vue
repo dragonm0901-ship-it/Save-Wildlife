@@ -11,7 +11,18 @@
           class="hero__slide"
           :class="{ 'hero__slide--active': currentSlide === i }"
         >
+          <template v-if="slide.video">
+            <video
+              :ref="el => { if (el) videoRefs[i] = el }"
+              :src="slide.video"
+              class="hero__slide-video"
+              muted
+              playsinline
+              preload="auto"
+            ></video>
+          </template>
           <img
+            v-else
             :src="slide.image"
             :alt="slide.alt"
             class="hero__slide-img"
@@ -128,7 +139,7 @@
     <section class="services-section section section--dark" id="services-section">
       <!-- Section Background -->
       <div class="services-section__bg">
-        <img src="/images/backgrounds/wildlife-subtle.png" alt="" class="img-cover" />
+        <img src="/images/backgrounds/wildlife-light.png" alt="" class="img-cover" style="opacity: 0.1; filter: grayscale(1);" />
         <div class="services-section__overlay"></div>
       </div>
 
@@ -152,8 +163,10 @@
                 <span class="service-item__number">{{ String(i + 1).padStart(2, '0') }}</span>
                 <div class="service-item__info">
                   <h3 class="service-item__title">{{ service.title }}</h3>
-                  <p class="service-item__desc">{{ service.description || service.desc }}</p>
-                </div>
+                <p class="service-item__desc" v-if="service.description || service.desc">
+                  {{ service.description || service.desc }}
+                </p>
+              </div>
               </div>
               <span class="service-item__arrow">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -161,7 +174,7 @@
             </NuxtLink>
           </div>
 
-          <div class="services-grid__image" v-if="services && services.length > 0">
+          <div class="services-grid__image" v-if="services?.length > 0">
             <img
               :src="services[activeService]?.image"
               :alt="services[activeService]?.title"
@@ -200,7 +213,7 @@
               <div class="event-card__meta">
                 <span class="event-card__time">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  {{ event.time }}
+                  {{ event.time || event.start_time }}
                 </span>
                 <span class="event-card__location">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -271,7 +284,7 @@
             :class="{ 'testimonial-card--active': currentTestimonial === i }"
           >
             <div class="testimonial-card__stars">
-              <svg v-for="s in 5" :key="s" viewBox="0 0 24 24" fill="var(--electric-lime)" width="16" height="16">
+              <svg v-for="s in 5" :key="s" viewBox="0 0 24 24" fill="var(--jungle-dark)" width="16" height="16">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
               </svg>
             </div>
@@ -280,8 +293,9 @@
             </blockquote>
             <div class="testimonial-card__author">
               <div class="testimonial-card__avatar-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  <path d="M8 11l3 3 5-5"/>
                 </svg>
               </div>
               <div>
@@ -296,9 +310,19 @@
           <button @click="prevTestimonial" aria-label="Previous testimonial" class="testimonials-nav__btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           </button>
-          <span class="testimonials-nav__count" v-if="testimonials && testimonials.length > 0">
-            {{ currentTestimonial + 1 }} / {{ testimonials.length }}
-          </span>
+          
+          <!-- Modern Dots for Navigation -->
+          <div class="testimonials-dots">
+            <button
+              v-for="(_, i) in testimonials?.slice(0, 5)"
+              :key="'tdot-' + i"
+              class="testimonials-dot"
+              :class="{ 'testimonials-dot--active': currentTestimonial === i }"
+              @click="currentTestimonial = i"
+              :aria-label="`Testimonial ${i + 1}`"
+            ></button>
+          </div>
+
           <button @click="nextTestimonial" aria-label="Next testimonial" class="testimonials-nav__btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
@@ -400,7 +424,7 @@
                 <span class="blog-card__date">{{ post.date }}</span>
               </div>
               <h3 class="blog-card__title">{{ post.title }}</h3>
-              <p class="blog-card__excerpt">{{ post.excerpt }}</p>
+              <p class="blog-card__excerpt">{{ post.excerpt || post.description }}</p>
               <span class="blog-card__read-more">
                 Explore Blog
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
@@ -414,8 +438,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGsapAnimations } from '~/composables/useGsapAnimations'
+
+if (process.client) {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 useHead({ title: null })
 
@@ -424,13 +454,41 @@ const { fadeUp, staggerChildren, clipReveal } = useGsapAnimations()
 // ── Hero Slider ──
 const currentSlide = ref(0)
 const heroTitleRef = ref(null)
+const videoRefs = []
 let slideInterval = null
 
+watch(currentSlide, (newVal, oldVal) => {
+  const newVideo = videoRefs[newVal]
+  const oldVideo = videoRefs[oldVal]
+
+  if (newVideo) {
+    newVideo.play().catch(() => {})
+  }
+
+  if (oldVideo) {
+    // Delay pausing to allow smooth transition fade-out
+    setTimeout(() => {
+      if (currentSlide.value !== oldVal) {
+        oldVideo.pause()
+      }
+    }, 1200)
+  }
+})
+
 const heroSlides = [
+  {
+    title: 'Spotted Linsang',
+    subtitle: 'Discover the mysterious and rare linsang in the dense subtropical forests',
+    image: '/images/hero/spotted-linsang.png',
+    video: '/Hero Videos/Spotted Pisang.mp4',
+    thumb: '/images/hero/spotted-linsang.png',
+    alt: 'Spotted linsang on a tree branch',
+  },
   {
     title: 'Red Panda',
     subtitle: 'Meet the firefox of the Himalayan bamboo forests',
     image: '/images/hero/red-panda.png',
+    video: '/Hero Videos/Red Panda.mp4',
     thumb: '/images/hero/red-panda.png',
     alt: 'Red panda on a mossy branch',
   },
@@ -438,6 +496,7 @@ const heroSlides = [
     title: 'Snow Leopard',
     subtitle: 'Track the elusive Ghost of the Mountains in the high Himalayas',
     image: '/images/hero/snow-leopard.jpg',
+    video: '/Hero Videos/Snow Leopard.mp4',
     thumb: '/images/hero/snow-leopard.jpg',
     alt: 'Majestic snow leopard in the Himalayan peaks',
   },
@@ -445,6 +504,7 @@ const heroSlides = [
     title: 'One-Horned Rhino',
     subtitle: 'Witness the prehistoric giants of the Terai tropical jungles',
     image: '/images/hero/rhino.jpg',
+    video: '/Hero Videos/One Horned Rhino.mp4',
     thumb: '/images/hero/rhino.jpg',
     alt: 'One-horned rhinoceros in Chitwan grasslands',
   },
@@ -452,6 +512,7 @@ const heroSlides = [
     title: 'Royal Bengal Tiger',
     subtitle: 'Enter the kingdom of the jungle king in its natural habitat',
     image: '/images/hero/tiger.jpg',
+    video: '/Hero Videos/Bengal Tiger.mp4',
     thumb: '/images/hero/tiger.jpg',
     alt: 'Bengal tiger walking through dense jungle',
   },
@@ -459,6 +520,7 @@ const heroSlides = [
     title: 'Himalayan Flora',
     subtitle: 'Discover the vibrant world of Rhododendrons and alpine poppies',
     image: '/images/hero/flora.jpg',
+    video: '/Hero Videos/Himalayan Flora.mp4',
     thumb: '/images/hero/flora.jpg',
     alt: 'Blue Himalayan poppies and pink rhododendrons',
   },
@@ -475,7 +537,7 @@ function nextSlide() {
 
 function resetSlideTimer() {
   if (slideInterval) clearInterval(slideInterval)
-  slideInterval = setInterval(nextSlide, 5000)
+  slideInterval = setInterval(nextSlide, 3000)
 }
 
 // ── API Fetching ──
@@ -532,17 +594,25 @@ function handleNewsletterSubmit() {
 // blogPosts fetched via useFetch above
 
 // ── Lifecycle ──
-onMounted(() => {
+onMounted(async () => {
   resetSlideTimer()
 
-  // GSAP animations - wait for hydration/DOM to settle
+  // Initial play for first slide
+  if (videoRefs[0]) {
+    videoRefs[0].play().catch(() => {})
+  }
+
+  // Ensure data is ready and nextTick for GSAP
+  await nextTick()
+  
   setTimeout(() => {
     fadeUp('.about-preview__info > *', { stagger: 0.1, trigger: '.about-preview' })
     clipReveal('.about-preview__image img', { trigger: '.about-preview__image' })
     staggerChildren('.events-grid', '.event-card', { stagger: 0.15 })
     fadeUp('.donation-section__info > *', { stagger: 0.1, trigger: '.donation-section' })
     staggerChildren('.blog-grid', '.blog-card', { stagger: 0.12 })
-  }, 1000)
+    refresh() // Refresh ScrollTrigger to ensure triggers match new DOM positions
+  }, 1200)
 })
 
 onUnmounted(() => {
@@ -581,7 +651,8 @@ onUnmounted(() => {
   opacity: 1;
 }
 
-.hero__slide-img {
+.hero__slide-img,
+.hero__slide-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -589,8 +660,17 @@ onUnmounted(() => {
   transition: transform 8s ease-out;
 }
 
-.hero__slide--active .hero__slide-img {
+.hero__slide-video {
+  transform: scale(1.1);
+}
+
+.hero__slide--active .hero__slide-img,
+.hero__slide--active .hero__slide-video {
   transform: scale(1);
+}
+
+.hero__slide--active .hero__slide-video {
+  transform: scale(1.05);
 }
 
 .hero__slide-overlay {
@@ -810,9 +890,9 @@ onUnmounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 0;
   color: var(--white);
   cursor: pointer;
@@ -859,20 +939,20 @@ onUnmounted(() => {
   margin-bottom: var(--space-2xs);
 }
 
-.service-item__desc {
-  font-size: var(--text-sm);
-  color: var(--white-50);
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: all 400ms var(--ease-out-expo);
-}
-
 .service-item--active .service-item__desc,
 .service-item:hover .service-item__desc {
   opacity: 1;
-  max-height: 100px;
-  margin-top: var(--space-2xs);
+  max-height: 200px;
+  margin-top: var(--space-xs);
+}
+
+.service-item__desc {
+  font-size: var(--text-sm);
+  color: var(--white-70);
+  opacity: 0.6; /* Higher base visibility */
+  max-height: 0;
+  overflow: hidden;
+  transition: all 500ms var(--ease-out-expo);
 }
 
 .service-item__arrow {
@@ -1092,7 +1172,10 @@ onUnmounted(() => {
   z-index: 1;
   display: flex;
   justify-content: center;
-  min-height: 280px;
+  min-height: 520px; /* Increased to prevent overlapping with nav */
+  position: relative;
+  z-index: 1;
+  margin-bottom: var(--space-xl);
 }
 
 .testimonial-card {
@@ -1195,10 +1278,30 @@ onUnmounted(() => {
   height: 20px;
 }
 
-.testimonials-nav__count {
-  font-family: var(--font-accent);
-  font-size: var(--text-sm);
-  color: var(--charcoal-60);
+.testimonials-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-round);
+  background: var(--fog);
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-base) ease;
+}
+
+.testimonials-dot--active {
+  background: var(--jungle-dark);
+  width: 24px;
+}
+
+.hero__dot--active {
+  background: var(--jungle-dark);
+  width: 40px;
+}
+
+.testimonials-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 /* ═══════════════════════════════════════════

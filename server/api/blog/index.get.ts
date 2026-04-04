@@ -62,6 +62,33 @@ const fallbackPosts = [
     image_url: 'https://images.unsplash.com/photo-1591608971362-f08b2a75731a?w=800&q=80',
     content_html: '<p>The Koshi Tappu Wildlife Reserve is a mosaic of tall grasslands, marshes, and the mighty Koshi River. It is the only place in Nepal where the wild water buffalo (Arna) can be found, but for most visitors, the real draw is the avian life.</p><h3>Winter Migrants</h3><p>From November to February, thousands of ducks, geese, and cranes arrive from Siberia and Tibet. The reserve becomes a cacophony of sound and color as rare species like the Baer\'s Pochard and the Bengal Florican make their seasonal appearance.</p><h3>Rare Sightings</h3><p>Keep your binoculars ready for the Sarus Crane, the world\'s tallest flying bird, and the Swamp Francolin. A sunrise canoe trip down the Koshi River offers the best chance of spotting the elusive Indus River Dolphin alongside dozens of kingfisher species.</p>',
   },
+  {
+    id: 8, slug: 'snow-leopard-conservation-shey-phoksundo', title: 'Protecting the Ghost of the Mountains in Shey Phoksundo',
+    category: 'Conservation', author_name: 'Pemba Sherpa',
+    excerpt: 'How high-altitude cameras and community livestock insurance programs are saving the elusive snow leopard in Nepal\'s largest national park.',
+    description: 'A deep dive into the technology and community-led efforts securing the future of snow leopards in the Himalayas.',
+    published_at: '2025-08-15',
+    image_url: 'https://images.unsplash.com/photo-1541093113199-a2e9d84e903f?w=800&q=80',
+    content_html: '<p>In the rugged peaks of Shey Phoksundo, a silent guardian roams the slopes. The snow leopard, once a victim of retaliatory killings, is finding a new lease on life through an innovative community insurance scheme.</p><h3>Livestock Insurance Models</h3><p>When a snow leopard preys on goats or yaks, local farmers now receive swift compensation through a communal fund. This "Snow Leopard Insurance" has turned former adversaries into protectors, reducing kills by over 80% since its inception.</p><h3>Camera Trap Breakthroughs</h3><p>Using AI-powered camera traps, researchers have identified 12 distinct individuals in the Phoksundo valley alone. This data helps us map their vital corridors and understand their seasonal migrations, ensuring that human infrastructure doesn\'t block their paths.</p>',
+  },
+  {
+    id: 9, slug: 'one-horned-rhino-recovery-chitwan', title: 'The Prehistoric Giants: One-Horned Rhino Recovery',
+    category: 'Wild Life', author_name: 'Bikram Thapa',
+    excerpt: 'From fewer than 100 individuals to over 750, the recovery of the greater one-horned rhinoceros in Chitwan is a global conservation success story.',
+    description: 'The story of how Nepal brought the one-horned rhino back from the brink of extinction.',
+    published_at: '2025-07-20',
+    image_url: 'https://images.unsplash.com/photo-1598894000396-bc30e0996899?w=800&q=80',
+    content_html: '<p>The greater one-horned rhinoceros is a symbol of resilience. In the 1960s, hunting and habitat loss left fewer than 100 of these armored giants in Nepal. Today, thank to zero-poaching years and intensive habitat management, that number has climbed past 750.</p><h3>Zero Poaching Milestone</h3><p>Nepal has achieved several years of "Zero Poaching" for rhinos, a feat made possible by the dedicated work of the Nepal Army and local community anti-poaching units. This combined effort has made Chitwan one of the safest havens for megafauna in Asia.</p><h3>Translocation for Safety</h3><p>To prevent localized catastrophes like floods or disease, Nepal has been translocating rhinos to Bardia and Shuklaphanta national parks. These "founder populations" ensure the survival of the species, creating multiple strongholds across the Terai lowlands.</p>',
+  },
+  {
+    id: 10, slug: 'secret-waterfalls-of-langtang', title: 'Discovering the Secret Waterfalls of Langtang',
+    category: 'Adventures', author_name: 'Anita Rai',
+    excerpt: 'Hidden amidst the dense fir forests of Langtang are pristine waterfalls rarely visited by the average trekker. Here is how to find them.',
+    description: 'An off-the-beaten-path guide to the hidden water wonders of the Langtang National Park.',
+    published_at: '2025-06-10',
+    image_url: 'https://images.unsplash.com/photo-1433086566608-bc7941235122?w=800&q=80',
+    content_html: '<p>Langtang is famous for its mountains, but its water is equally majestic. Beyond the main trails lie cascading falls that form life-giving oases for the local red panda population.</p><h3>The Hidden Gorge</h3><p>A four-hour detour from Rimche leads to a nameless 40-meter fall that drops into a turquoise pool. Surrounded by moss-covered rocks and rare orchids, it feels like a place out of time. May and early June offer the best floral displays around these falls.</p><h3>Photography Tips</h3><p>The mist from these falls creates beautiful lighting but can be tough on gear. Use a tripod and a slow shutter speed (0.5s to 2s) to capture the "silk" effect of the water. Early morning light provides the softest shadows in these deep forest glades.</p>',
+  },
 ];
 
 export default defineEventHandler(async (event) => {

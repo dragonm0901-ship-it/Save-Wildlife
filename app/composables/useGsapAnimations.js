@@ -1,8 +1,8 @@
-import { onMounted, onUnmounted } from 'vue'
+import { onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-if (typeof window !== 'undefined') {
+if (process.client || typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
