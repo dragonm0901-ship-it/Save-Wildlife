@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: wildpark-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: wildpark
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: wild_user
+      MYSQL_PASSWORD: wild_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

@@ -1,0 +1,97 @@
+/* ============================================
+   WILDPARK — Page Transitions
+   Barba.js-style cinematic transitions via Nuxt
+   ============================================ */
+
+/* ── Jungle Curtain Transition ── */
+.jungle-enter-active,
+.jungle-leave-active {
+  transition: all 600ms var(--ease-out-expo);
+}
+
+.jungle-enter-from {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(20px);
+}
+
+.jungle-leave-to {
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(-20px);
+}
+
+/* ── Transition Overlay (GSAP-controlled curtain) ── */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-max);
+  pointer-events: none;
+  display: flex;
+}
+
+.page-transition-overlay__slice {
+  flex: 1;
+  background-color: var(--jungle-dark);
+  transform: scaleY(0);
+  transform-origin: bottom;
+}
+
+/* ── Route-specific transitions ── */
+.slide-left-enter-active,
+.slide-left-leave-active {
+  transition: all 500ms var(--ease-out-expo);
+}
+
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(40px);
+}
+
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.fade-up-enter-active,
+.fade-up-leave-active {
+  transition: all 400ms var(--ease-out-expo);
+}
+
+.fade-up-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.fade-up-leave-to {
+  opacity: 0;
+  transform: translateY(-15px);
+}
+
+/* ── Vine Mask (for animal pages) ── */
+.vine-mask {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-max);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.vine-mask__left,
+.vine-mask__right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-color: var(--jungle-deep);
+}
+
+.vine-mask__left {
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.vine-mask__right {
+  right: 0;
+  transform: translateX(100%);
+}
