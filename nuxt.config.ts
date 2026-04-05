@@ -60,6 +60,7 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    preset: 'vercel',
     imports: {
       dirs: ['server/utils'],
     },
