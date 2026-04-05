@@ -3,23 +3,23 @@
     <!-- Hero -->
     <section class="page-hero">
       <NuxtImg 
-        src="https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=1600&q=80" 
-        alt="Wildlife at sunset" 
+        src="/images/hero/snow-leopard.jpg" 
+        alt="Majestic Snow Leopard in the Himalayas" 
         class="page-hero__bg"
         loading="eager"
         format="webp"
       />
       <div class="page-hero__overlay"></div>
       <div class="container page-hero__content">
-        <h1 class="page-hero__title">Kingdom of Species</h1>
+        <h1 class="page-hero__title">Nepal's Living Heritage</h1>
         <div class="page-hero__meta">
-          <strong class="page-hero__label">Discovery</strong>
-          <p>Explore our diverse sanctuary, home to over 200 species of Himalayan wildlife and exotic birds.</p>
+          <strong class="page-hero__label">Biodiversity</strong>
+          <p>Explore the diverse fauna and flora across Nepal's unique ecological zones, from the Terai to the Himalayas.</p>
         </div>
       </div>
     </section>
 
-    <UiSectionLabel :items="['DISCOVER SPECIES', 'EXPLORE HABITATS', 'CONSERVATION']" />
+    <UiSectionLabel :items="['ANIMALS', 'BIRDS', 'FLORA', 'CONSERVATION']" />
 
     <!-- Filter + Grid -->
     <section class="section section--bone" id="animals-grid-section">
@@ -38,7 +38,7 @@
           <p>Scouting for wildlife...</p>
         </div>
 
-        <div v-else-if="filteredAnimals && filteredAnimals.length" class="animals-grid">
+        <div v-else-if="filteredAnimals && filteredAnimals.length" :key="activeFilter" class="animals-grid">
           <NuxtLink
             v-for="animal in filteredAnimals"
             :key="animal.slug"
@@ -94,6 +94,7 @@ const filterTabs = [
   { label: 'All', value: 'all' },
   { label: 'Animals', value: 'animal' },
   { label: 'Birds', value: 'bird' },
+  { label: 'Flora', value: 'flora' },
 ]
 
 // Fetch animals from API
@@ -105,7 +106,9 @@ const { data: animals, pending, error, refresh } = await useFetch('/api/animals'
 const filteredAnimals = computed(() => {
   if (!animals.value) return []
   if (activeFilter.value === 'all') return animals.value
-  return animals.value.filter(a => a.category === activeFilter.value)
+  return animals.value.filter(a => {
+    return a.category?.toLowerCase() === activeFilter.value.toLowerCase()
+  })
 })
 
 onMounted(() => {
@@ -116,10 +119,18 @@ onMounted(() => {
   }
 })
 
-// Trigger animation on filter change
+// Trigger animation on filter change - Bypass ScrollTrigger for immediate visibility
 watch(activeFilter, async () => {
   await nextTick()
-  staggerChildren('.animals-grid', '.animal-card', { stagger: 0.08 })
+  const { gsap } = useGsapAnimations()
+  gsap.from('.animal-card', {
+    y: 40,
+    opacity: 0,
+    duration: 0.6,
+    stagger: 0.05,
+    ease: 'power3.out',
+    clearProps: 'all'
+  })
 })
 </script>
 

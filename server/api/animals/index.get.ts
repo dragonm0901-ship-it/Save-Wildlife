@@ -38,7 +38,7 @@ const fallbackAnimals = [
     id: 6, slug: 'himalayan-monal', name: 'Himalayan Monal', scientific_name: 'Lophophorus impejanus',
     category: 'bird', habitat: 'Alpine Meadows',
     description: 'Nepal\'s national bird, the Himalayan monal is famous for its iridescent plumage that shifts between emerald, sapphire, and copper. Found at elevations between 2,100 and 4,500 meters.',
-    image_url: 'https://images.unsplash.com/photo-1555324890-cf36e68ad08f?w=800&q=80',
+    image_url: '/images/hero/danfe.png',
     conservation_status: 'Least Concern',
   },
   {
@@ -54,6 +54,83 @@ const fallbackAnimals = [
     description: 'The gharial is one of the most critically endangered crocodilians on earth. Nepal\'s Narayani and Rapti rivers host captive breeding and release programs to rebuild wild populations.',
     image_url: 'https://images.unsplash.com/photo-1504450874802-0ba2bcd659e0?w=800&q=80',
     conservation_status: 'Critically Endangered',
+  },
+  {
+    id: 9, slug: 'himalayan-blue-sheep', name: 'Himalayan Blue Sheep', scientific_name: 'Pseudois nayaur',
+    category: 'animal', habitat: 'High altitude cliffs',
+    description: 'Neither a sheep nor a goat, the Bharal is the primary prey for snow leopards. They navigate the steepest cliffs of the Himalayas with ease.',
+    image_url: 'https://images.unsplash.com/photo-1510253401509-026605e557b6?w=800&q=80',
+    conservation_status: 'Least Concern',
+  },
+  {
+    id: 10, slug: 'swamp-deer', name: 'Swamp Deer (Barasingha)', scientific_name: 'Rucervus duvaucelii',
+    category: 'animal', habitat: 'Wetlands of West Nepal',
+    description: 'The majestic swamp deer is known for its impressive multi-tined antlers. Nepal\'s Shuklaphanta National Park is one of its last global strongholds.',
+    image_url: 'https://images.unsplash.com/photo-1508472504214-e0bed6488dcc?w=800&q=80',
+    conservation_status: 'Vulnerable',
+  },
+  {
+    id: 11, slug: 'blackbuck', name: 'Blackbuck (Krishnasar)', scientific_name: 'Antilope cervicapra',
+    category: 'animal', habitat: 'Open Grasslands',
+    description: 'Nepal\'s only population of blackbuck thrives in the Khairapur grasslands of Bardia. They are famous for the male\'s long, spiraling horns and dramatic dark coat.',
+    image_url: 'https://images.unsplash.com/photo-1549413204-6292d52364cd?w=800&q=80',
+    conservation_status: 'Near Threatened',
+  },
+  {
+    id: 12, slug: 'spiny-babbler', name: 'Spiny Babbler', scientific_name: 'Turdoides nipalensis',
+    category: 'bird', habitat: 'Hilly Scrubland',
+    description: 'The only bird endemic entirely to Nepal. Once thought extinct, it was rediscovered in 1948 and remains a prized sight for birdwatchers across the mid-hills.',
+    image_url: 'https://images.unsplash.com/photo-1444464666168-49d633b867ad?w=800&q=80',
+    conservation_status: 'Least Concern',
+  },
+  {
+    id: 13, slug: 'great-hornbill', name: 'Great Hornbill', scientific_name: 'Buceros bicornis',
+    category: 'bird', habitat: 'Subtropical Rain Forests',
+    description: 'With its massive yellow-and-black casque and loud resonance, the Great Hornbill is an architectural marvel of the Terai skies.',
+    image_url: 'https://images.unsplash.com/photo-1511447333015-45b65e60f6d5?w=800&q=80',
+    conservation_status: 'Vulnerable',
+  },
+  {
+    id: 14, slug: 'blood-pheasant', name: 'Blood Pheasant', scientific_name: 'Ithaginis cruentus',
+    category: 'bird', habitat: 'Alpine Conifer Forests',
+    description: 'Named for the scarlet splashes on the male\'s breast and tail, these hardy birds are found amongst the snow-dusted junipers of the high North.',
+    image_url: 'https://images.unsplash.com/photo-1555324890-cf36e68ad08f?w=800&q=80',
+    conservation_status: 'Least Concern',
+  },
+  {
+    id: 15, slug: 'rhododendron', name: 'Rhododendron (Lali Gurans)', scientific_name: 'Rhododendron arboreum',
+    category: 'flora', habitat: 'Temperate Forests',
+    description: 'Nepal\'s national flower paints the hillsides red every spring. Some trees in the Milke Danda region can grow up to 15 meters tall.',
+    image_url: '/images/hero/flora.jpg',
+    conservation_status: 'Least Concern',
+  },
+  {
+    id: 16, slug: 'sal-tree', name: 'Sal Tree', scientific_name: 'Shorea robusta',
+    category: 'flora', habitat: 'Subtropical Lowlands',
+    description: 'The dominant tree of the Terai, providing habitat for tigers and timber for tradition. Its large leaves are often used as plates (Dunatapari) in religious ceremonies.',
+    image_url: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=800&q=80',
+    conservation_status: 'Least Concern',
+  },
+  {
+    id: 17, slug: 'blue-poppy', name: 'Himalayan Blue Poppy', scientific_name: 'Meconopsis',
+    category: 'flora', habitat: 'Alpine Scree Slopes',
+    description: 'A blue jewel of the high Himalayas, blooming only for a short window during the monsoon at altitudes above 4,000 meters.',
+    image_url: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
+    conservation_status: 'Endangered',
+  },
+  {
+    id: 18, slug: 'himalayan-musk-deer', name: 'Musk Deer', scientific_name: 'Moschus leucogaster',
+    category: 'animal', habitat: 'Sub-alpine Forests',
+    description: 'Equipped with tusks instead of antlers, this primitive deer is prized for its scent pod. They are extremely shy and agile in rocky, high-altitude terrain.',
+    image_url: 'https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=800&q=80',
+    conservation_status: 'Endangered',
+  },
+  {
+    id: 19, slug: 'wild-orchids', name: 'Wild Orchid', scientific_name: 'Orchidaceae',
+    category: 'flora', habitat: 'Humid Hilly Forests',
+    description: 'Nepal is home to over 450 species of wild orchids, ranging from ephemeral blooms in the East to hardy terrestrial varieties in the West.',
+    image_url: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&q=80',
+    conservation_status: 'Threatened',
   },
 ];
 
@@ -71,7 +148,8 @@ export default defineEventHandler(async (event) => {
       return (data as any[]).map(row => ({
         ...row,
         image: row.image_url,
-        scientific: row.scientific_name
+        scientific: row.scientific_name,
+        category: (row.category || 'animal').toLowerCase()
       }));
     }
   } catch (_err) {
@@ -82,5 +160,6 @@ export default defineEventHandler(async (event) => {
     ...a,
     image: a.image_url,
     scientific: a.scientific_name,
+    category: (a.category || 'animal').toLowerCase()
   }));
 });

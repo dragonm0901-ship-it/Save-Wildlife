@@ -116,5 +116,21 @@ const stories = computed(() => pageData.value?.stories || [
 .story-card__content{padding:var(--space-xl)}
 .story-card__content h4{font-family:var(--font-body);font-size:var(--text-md);font-weight:var(--weight-bold);color:var(--white);margin-bottom:var(--space-sm)}
 .story-card__content p{font-size:var(--text-sm);color:var(--white-70)}
-@media(max-width:768px){.donation-page__grid{grid-template-columns:1fr}.stories-grid{grid-template-columns:1fr}.page-hero__meta{flex-direction:column;align-items:flex-start}}
+@media (max-width: 768px) {
+  .page-hero { min-height: 40vh; padding-bottom: var(--space-xl); }
+  .page-hero__title { font-size: 3rem; margin-bottom: var(--space-md); }
+  .page-hero__meta { flex-direction: column; align-items: flex-start; gap: var(--space-sm); padding-top: var(--space-md); }
+  .page-hero__label { min-width: 0; font-size: var(--text-lg); }
+  
+  .donation-page__grid { grid-template-columns: 1fr; gap: var(--space-2xl); }
+  .donation-form-card { padding: var(--space-xl); position: relative; top: 0; }
+  
+  .stories-grid { grid-template-columns: 1fr; }
+  .impact-item { gap: var(--space-md); }
+}
+
+@media (max-width: 480px) {
+  .page-hero__title { font-size: 2.5rem; }
+  .donation-amounts { grid-template-columns: 1fr; }
+}
 </style>

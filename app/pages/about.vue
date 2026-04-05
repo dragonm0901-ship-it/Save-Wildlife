@@ -388,15 +388,30 @@ onMounted(() => {
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-  .impact-stats { grid-template-columns: repeat(2, 1fr); }
+  .impact-stats { grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); }
   .team-grid { grid-template-columns: repeat(2, 1fr); }
   .benefits-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
-  .page-hero { min-height: 50vh; }
-  .page-hero__meta { flex-direction: column; align-items: flex-start; }
+  .page-hero { min-height: 40vh; padding-bottom: var(--space-xl); }
+  .page-hero__title { font-size: 3rem; margin-bottom: var(--space-md); }
+  .page-hero__meta { flex-direction: column; align-items: flex-start; gap: var(--space-sm); padding-top: var(--space-md); }
+  .page-hero__label { min-width: 0; font-size: var(--text-lg); }
+  .page-hero__scroll { display: none; }
+
+  .mission-block__text { font-size: var(--text-lg); line-height: 1.4; }
+  .impact-stats { grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
+  .impact-stat { padding: var(--space-xl) var(--space-md); }
+  .impact-stat__number { font-size: var(--text-3xl); }
+  
   .benefits-grid { grid-template-columns: 1fr; }
-  .team-grid { grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  .team-grid { grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+}
+
+@media (max-width: 480px) {
+  .page-hero__title { font-size: 2.2rem; }
+  .impact-stats { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr; }
 }
 </style>

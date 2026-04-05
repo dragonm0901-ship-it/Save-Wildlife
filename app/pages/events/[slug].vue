@@ -78,5 +78,16 @@ useHead({ title: computed(() => event.value?.title || 'Event Detail') })
 .event-info p{font-size:var(--text-md);font-weight:var(--weight-medium);margin-top:var(--space-xs);color:var(--charcoal)}
 .sidebar-card{background:var(--ivory);border:1px solid var(--fog);border-radius:var(--radius-xl);padding:var(--space-2xl);position:sticky;top:100px}
 .sidebar-card h4{font-family:var(--font-body);font-size:var(--text-lg);font-weight:var(--weight-bold);margin-bottom:var(--space-md)}
-@media(max-width:768px){.detail-content{grid-template-columns:1fr}.event-info-grid{grid-template-columns:1fr}}
+@media (max-width: 768px) {
+  .page-hero { min-height: 40vh; padding-bottom: var(--space-xl); }
+  .page-hero__title { font-size: 2.5rem; margin-bottom: var(--space-md); }
+  .detail-content { grid-template-columns: 1fr; gap: var(--space-2xl); }
+  .event-info-grid { grid-template-columns: 1fr; }
+  .sidebar-card { padding: var(--space-xl); position: relative; top: 0; }
+}
+
+@media (max-width: 480px) {
+  .page-hero__title { font-size: 2rem; }
+  .detail-content__lead { font-size: var(--text-base); }
+}
 </style>

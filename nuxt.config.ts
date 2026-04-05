@@ -20,12 +20,12 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'Wildpark | Wildlife Sanctuary & Nature Reserve',
+      title: 'Save Wildlife | Wildlife Sanctuary & Nature Reserve',
       htmlAttrs: { lang: 'en' },
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { name: 'description', content: 'Discover the majestic wildlife of Nepal at Wildpark Sanctuary.' },
+        { name: 'description', content: 'Discover the majestic wildlife of Nepal at Save Wildlife Sanctuary.' },
         { name: 'theme-color', content: '#1a2e26' },
         { property: 'og:title', content: 'Save Wildlife — Nepalese Conservation & Eco-Tourism' },
         { property: 'og:description', content: 'Experience the wild, protect the future. Save Wildlife is a premium Nepalese sanctuary dedicated to preserving the biodiversity of the Himalayas and Terai.' },
@@ -52,11 +52,6 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
-    dbHost: process.env.DB_HOST || 'localhost',
-    dbPort: process.env.DB_PORT || '3306',
-    dbUser: process.env.DB_USER || 'wildpark',
-    dbPassword: process.env.DB_PASSWORD || 'wildpark_secret',
-    dbName: process.env.DB_NAME || 'wildpark',
     public: {
       supabaseUrl: process.env.SUPABASE_URL || '',
       supabaseAnonKey: process.env.SUPABASE_KEY || process.env.SUPABASE_ANON_KEY || '',
@@ -65,7 +60,6 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    preset: 'node-server',
     imports: {
       dirs: ['server/utils'],
     },

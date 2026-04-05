@@ -87,8 +87,25 @@ function addToCart(ticket) {
 .ticket-card__period{font-size:var(--text-sm);color:var(--charcoal-60);margin-left:var(--space-xs)}
 .ticket-card__features{display:flex;flex-direction:column;gap:var(--space-sm);margin-bottom:var(--space-xl)}
 .ticket-card__features li{display:flex;align-items:center;gap:var(--space-sm);font-size:var(--text-sm);color:var(--charcoal-80)}
-.trust-banner__inner{text-align:center;font-size:var(--text-md);color:var(--white-70)}
+.trust-banner__inner p{text-align:center;font-size:var(--text-md);color:var(--white)}
 .trust-banner__count{display:inline-flex;align-items:center;justify-content:center;padding:var(--space-2xs) var(--space-md);background:var(--electric-lime);color:var(--jungle-deep);border-radius:var(--radius-pill);font-family:var(--font-accent);font-weight:var(--weight-bold);margin:0 var(--space-xs)}
-@media(max-width:1024px){.tickets-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:768px){.tickets-grid{grid-template-columns:1fr}.ticket-card--featured{transform:none}.page-hero__meta{flex-direction:column;align-items:flex-start}}
+@media (max-width: 1024px) {
+  .tickets-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .page-hero { min-height: 40vh; padding-bottom: var(--space-xl); }
+  .page-hero__title { font-size: 3rem; margin-bottom: var(--space-md); }
+  .page-hero__meta { flex-direction: column; align-items: flex-start; gap: var(--space-sm); padding-top: var(--space-md); }
+  .page-hero__label { min-width: 0; font-size: var(--text-lg); }
+
+  .tickets-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .ticket-card { padding: var(--space-xl); }
+  .ticket-card--featured { transform: none; }
+  .ticket-card--featured:hover { transform: translateY(-4px); }
+}
+
+@media (max-width: 480px) {
+  .page-hero__title { font-size: 2.5rem; }
+}
 </style>

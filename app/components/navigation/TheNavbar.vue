@@ -24,8 +24,8 @@
         </span>
       </button>
 
-      <NuxtLink to="/" class="navbar__logo" aria-label="Wildpark Home" @click="closeMenu">
-        <span class="navbar__logo-text">WILDPARK</span>
+      <NuxtLink to="/" class="navbar__logo" aria-label="Save Wildlife Home" @click="closeMenu">
+        <span class="navbar__logo-text">SAVE WILDLIFE</span>
       </NuxtLink>
 
       <div class="navbar__actions">
@@ -35,7 +35,7 @@
           class="navbar__action-btn navbar__action-btn--user"
           aria-label="My account"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </NuxtLink>
         <NuxtLink
           v-else
@@ -43,7 +43,7 @@
           class="navbar__action-btn navbar__action-btn--user"
           aria-label="Sign in"
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </NuxtLink>
 
         <button
@@ -279,27 +279,45 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3xl);
-  padding: var(--space-md) var(--space-2xl);
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-xl);
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
   pointer-events: auto;
   transition: all 400ms ease;
 }
 
+@media (max-width: 768px) {
+  .navbar__inner {
+    padding: var(--space-xs) var(--space-md);
+    gap: var(--space-xs);
+  }
+}
+
 /* ── Hamburger Menu Button ── */
 .navbar__menu-btn {
   position: relative;
-  width: 60px; /* Scaled from 40px */
+  width: 60px;
   height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--white);
   border-radius: 4px;
-  border: 1px solid var(--white-20);
-  transition: border-color var(--duration-base) ease;
+  border: 1px solid var(--white);
+  transition: all var(--duration-base) ease;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .navbar__menu-btn {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .navbar__menu-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: var(--white);
   border-color: var(--electric-lime);
 }
 
@@ -315,7 +333,7 @@ onUnmounted(() => {
   display: block;
   width: 100%;
   height: 2px;
-  background: var(--white);
+  background: var(--jungle-deep);
   border-radius: 1px;
   transition: all 400ms var(--ease-out-expo);
 }
@@ -364,6 +382,13 @@ onUnmounted(() => {
   text-transform: uppercase;
 }
 
+@media (max-width: 480px) {
+  .navbar__logo-text {
+    font-size: var(--text-lg);
+    letter-spacing: 0.1em;
+  }
+}
+
 /* ── Action Buttons ── */
 .navbar__actions {
   display: flex;
@@ -381,6 +406,14 @@ onUnmounted(() => {
   border-radius: 4px;
   color: var(--white);
   transition: all var(--duration-base) ease;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .navbar__action-btn {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .navbar__action-btn--user {
@@ -389,12 +422,23 @@ onUnmounted(() => {
 }
 
 .navbar__action-btn--user:hover {
-  transform: scale(1.1);
-  background: var(--electric-lime);
+  transform: translateY(-2px) scale(1.05);
+  background: var(--white);
+  color: var(--jungle-deep);
+  border-color: var(--white);
 }
 
 .navbar__cart-btn {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: var(--white);
+  color: var(--jungle-deep);
+  border: 1px solid var(--white);
+}
+
+.navbar__cart-btn:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: var(--electric-lime);
+  color: var(--jungle-deep);
+  border-color: var(--electric-lime);
 }
 
 .navbar__action-btn svg {
@@ -433,6 +477,20 @@ onUnmounted(() => {
   min-width: 360px;
 }
 
+@media (max-width: 480px) {
+  .navbar__dropdown--cart {
+    min-width: 100%;
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    padding: var(--space-md);
+    max-height: 80vh; /* Prevent overflow */
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .navbar__panel {
   padding: var(--space-md) var(--space-xl);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
@@ -444,6 +502,19 @@ onUnmounted(() => {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: var(--space-xs) var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .nav-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xs);
+  }
 }
 
 .nav-grid__item {
@@ -489,10 +560,18 @@ onUnmounted(() => {
 
 .cart-quick__items {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
+  flex-direction: column; /* Better for cart items than row/wrap */
+  gap: var(--space-xs);
   margin-bottom: var(--space-lg);
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: var(--space-xs);
+}
+
+@media (max-width: 480px) {
+  .cart-quick__items {
+    max-height: 40vh; /* Adjust for mobile viewport */
+  }
 }
 
 .cart-quick__item {

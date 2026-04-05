@@ -98,9 +98,9 @@ useHead({ title: 'Login' })
 </script>
 
 <style scoped>
-.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding-top: 100px; padding-bottom: 50px; }
-.auth-section { width: 100%; padding: var(--space-xl) 0; }
-.auth-card { background: var(--white); padding: var(--space-3xl); border-radius: var(--radius-2xl); border: 1px solid var(--fog); box-shadow: var(--shadow-xl); position: relative; }
+.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 80px var(--space-md) 40px; }
+.auth-section { width: 100%; padding: 0; }
+.auth-card { background: var(--white); padding: var(--space-3xl); border-radius: var(--radius-2xl); border: 1px solid var(--fog); box-shadow: var(--shadow-xl); position: relative; width: 100%; max-width: 480px; margin: 0 auto; }
 .auth-back-btn { position: absolute; top: var(--space-lg); left: var(--space-lg); z-index: 10; opacity: 0.7; }
 .auth-back-btn:hover { opacity: 1; }
 .auth-header { text-align: center; margin-bottom: var(--space-2xl); margin-top: var(--space-xl); }
@@ -114,4 +114,11 @@ useHead({ title: 'Login' })
 .auth-error { color: #d64545; font-size: var(--text-sm); text-align: center; margin-bottom: var(--space-md); }
 .auth-footer { text-align: center; margin-top: var(--space-2xl); padding-top: var(--space-xl); border-top: 1px solid var(--fog); font-size: var(--text-sm); color: var(--charcoal-60); }
 .auth-footer a { color: var(--canopy-green); font-weight: var(--weight-bold); }
+
+@media (max-width: 480px) {
+  .auth-page { padding: 60px var(--space-sm) 20px; }
+  .auth-card { padding: var(--space-xl); border-radius: var(--radius-xl); }
+  .auth-title { font-size: var(--text-2xl); }
+  .auth-back-btn { top: var(--space-sm); left: var(--space-sm); }
+}
 </style>

@@ -29,11 +29,7 @@
         <!-- About Column -->
         <div class="footer-col footer-col--about">
           <NuxtLink to="/" class="footer-logo">
-            <svg class="footer-logo__icon" viewBox="0 0 40 40" fill="none">
-              <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M20 8c-2 4-6 7-6 12 0 5.5 3 8 6 8s6-2.5 6-8c0-5-4-8-6-12z" fill="currentColor" opacity="0.3"/>
-              <path d="M20 12c-1.5 3-4.5 5.5-4.5 9 0 4 2 6 4.5 6s4.5-2 4.5-6c0-3.5-3-6-4.5-9z" fill="currentColor"/>
-            </svg>
+            <img src="/images/logo.png" alt="Save Wildlife Logo" class="footer-logo__img" />
             <span class="footer-logo__text">SAVE WILDLIFE</span>
           </NuxtLink>
           <p class="footer-about-text">
@@ -220,6 +216,21 @@ function handleSubscribe() {
   padding: var(--space-3xl) 0;
 }
 
+@media (max-width: 1024px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    text-align: center;
+  }
+}
+
 /* ── Logo & About ── */
 .footer-logo {
   display: flex;
@@ -229,10 +240,16 @@ function handleSubscribe() {
   color: var(--white);
 }
 
-.footer-logo__icon {
-  width: 32px;
-  height: 32px;
-  color: var(--electric-lime);
+@media (max-width: 480px) {
+  .footer-logo {
+    justify-content: center;
+  }
+}
+
+.footer-logo__img {
+  width: 40px;
+  height: auto;
+  object-fit: contain;
 }
 
 .footer-logo__text {
@@ -250,10 +267,22 @@ function handleSubscribe() {
   max-width: 320px;
 }
 
+@media (max-width: 480px) {
+  .footer-about-text {
+    margin-inline: auto;
+  }
+}
+
 /* ── Social ── */
 .footer-social {
   display: flex;
   gap: var(--space-sm);
+}
+
+@media (max-width: 480px) {
+  .footer-social {
+    justify-content: center;
+  }
 }
 
 .footer-social__link {
@@ -375,11 +404,6 @@ function handleSubscribe() {
   .footer-newsletter {
     grid-template-columns: 1fr;
     gap: var(--space-xl);
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
   }
 
   .footer-bottom {

@@ -16,6 +16,7 @@
               :ref="el => { if (el) videoRefs[i] = el }"
               :src="slide.video"
               class="hero__slide-video"
+              :style="{ objectPosition: slide.position || '50% 50%' }"
               muted
               playsinline
               preload="auto"
@@ -134,8 +135,8 @@
               <div class="about-preview__visual">
                 <div class="about-preview__image">
                   <img
-                    src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=1000&q=80"
-                    alt="Sanctuary entrance surrounded by lush vegetation"
+                    src="/images/about/dolphin.png"
+                    alt="Endangered Gangetic river dolphin in the Rapti river rapids"
                     loading="lazy"
                   />
                   
@@ -263,7 +264,7 @@
             <div class="container">
               <div class="section-header">
                 <span class="section-header__label">Upcoming Events</span>
-                <h2 class="section-header__title">Our Zoopark Events</h2>
+                <h2 class="section-header__title">Our Save Wildlife Events</h2>
               </div>
               <div class="events-grid">
                 <NuxtLink
@@ -307,7 +308,7 @@
             <div class="container">
               <div class="section-header">
                 <span class="section-header__label">Upcoming Events</span>
-                <h2 class="section-header__title">Our Zoopark Events</h2>
+                <h2 class="section-header__title">Our Save Wildlife Events</h2>
               </div>
               <div class="events-grid">
                 <NuxtLink
@@ -351,7 +352,7 @@
             <div class="container">
               <div class="section-header">
                 <span class="section-header__label">Upcoming Events</span>
-                <h2 class="section-header__title">Our Zoopark Events</h2>
+                <h2 class="section-header__title">Our Save Wildlife Events</h2>
               </div>
               <div class="events-grid">
                 <NuxtLink
@@ -602,12 +603,31 @@ watch(currentSlide, (newVal, oldVal) => {
 
 const heroSlides = [
   {
+    title: 'Asiatic Elephant',
+    subtitle: 'Witness the gentle giants of the lowland forests in their natural habitat',
+    image: '/images/about/Ethical Elephant Visit.png',
+    video: '/Hero Videos/Asiatic Elephant.mp4',
+    thumb: '/images/about/Ethical Elephant Visit.png',
+    alt: 'Asiatic elephant roaming the Terai jungles',
+    position: '50% 50%',
+  },
+  {
     title: 'Spotted Linsang',
     subtitle: 'Discover the mysterious and rare linsang in the dense subtropical forests',
     image: '/images/hero/spotted-linsang.png',
     video: '/Hero Videos/Spotted Pisang.mp4',
     thumb: '/images/hero/spotted-linsang.png',
     alt: 'Spotted linsang on a tree branch',
+    position: '75% 50%',
+  },
+  {
+    title: 'Danfe (Lophophorus)',
+    subtitle: 'Witness the iridescent beauty of Nepal\'s national bird',
+    image: '/images/hero/danfe.png',
+    video: '/Hero Videos/danfe.mp4',
+    thumb: '/images/hero/danfe.png',
+    alt: 'Vibrant Himalayan Monal (Danfe) in the snow',
+    position: '50% 50%',
   },
   {
     title: 'Red Panda',
@@ -616,6 +636,16 @@ const heroSlides = [
     video: '/Hero Videos/Red Panda.mp4',
     thumb: '/images/hero/red-panda.png',
     alt: 'Red panda on a mossy branch',
+    position: '70% 50%',
+  },
+  {
+    title: 'Gharial Crocodile',
+    subtitle: 'Track the prehistoric gharial in the river systems of the Terai',
+    image: '/images/about/Gharial Crocodile.png',
+    video: '/Hero Videos/Gharial Crocodile.mp4',
+    thumb: '/images/about/Gharial Crocodile.png',
+    alt: 'Gharial crocodile submerged in the Narayani river',
+    position: '55% 50%',
   },
   {
     title: 'Snow Leopard',
@@ -624,6 +654,7 @@ const heroSlides = [
     video: '/Hero Videos/Snow Leopard.mp4',
     thumb: '/images/hero/snow-leopard.jpg',
     alt: 'Majestic snow leopard in the Himalayan peaks',
+    position: '75% 50%',
   },
   {
     title: 'One-Horned Rhino',
@@ -632,6 +663,7 @@ const heroSlides = [
     video: '/Hero Videos/One Horned Rhino.mp4',
     thumb: '/images/hero/rhino.jpg',
     alt: 'One-horned rhinoceros in Chitwan grasslands',
+    position: '50% 50%',
   },
   {
     title: 'Royal Bengal Tiger',
@@ -640,6 +672,7 @@ const heroSlides = [
     video: '/Hero Videos/Bengal Tiger.mp4',
     thumb: '/images/hero/tiger.jpg',
     alt: 'Bengal tiger walking through dense jungle',
+    position: '80% 50%',
   },
   {
     title: 'Himalayan Flora',
@@ -648,6 +681,7 @@ const heroSlides = [
     video: '/Hero Videos/Himalayan Flora.mp4',
     thumb: '/images/hero/flora.jpg',
     alt: 'Blue Himalayan poppies and pink rhododendrons',
+    position: '90% 50%',
   },
 ]
 
@@ -767,15 +801,18 @@ onMounted(async () => {
         }
       })
 
-      // Phase 1: The Slide (0 to 0.7 of the timeline)
+      // Phase 1: Initial Hold (Pause on "About" section)
+      horizontalTl.to({}, { duration: 0.4 }) 
+
+      // Phase 2: The Slide
       horizontalTl.to(wrapper, {
         x: () => -(wrapper.scrollWidth - window.innerWidth),
         ease: 'none',
-        duration: 2 // Arbitrary duration to establish the 70/30 split
+        duration: 2
       })
 
-      // Phase 2: The Hold (0.7 to 1.0 of the timeline)
-      horizontalTl.to({}, { duration: 1 }) // Dummy hold period
+      // Phase 3: The Final Hold (Pause on "Services" section)
+      horizontalTl.to({}, { duration: 0.6 })
     }
 
     fadeUp('.donation-section__info > *', { stagger: 0.1, trigger: '.donation-section' })
@@ -795,7 +832,7 @@ onMounted(async () => {
       })
 
       // Phase 1: Minimal Hold (0.4s equivalent)
-      tl.to({}, { duration: 0.4 }) 
+      tl.to({}, { duration: 0.2 }) 
 
       // The Swap: Hide Static, Show Shutters
       tl.set('.shutter-reveal__static', { autoAlpha: 0 })
@@ -824,12 +861,19 @@ onUnmounted(() => {
 .hero {
   position: relative;
   height: 100vh;
-  min-height: 700px;
+  min-height: 600px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--jungle-deep);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 80vh;
+    min-height: 500px;
+  }
 }
 
 .hero__slides {
@@ -853,6 +897,7 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 50%;
   transform: scale(1.05);
   transition: transform 8s ease-out;
 }
@@ -915,6 +960,12 @@ onUnmounted(() => {
   gap: var(--space-sm);
 }
 
+@media (max-width: 768px) {
+  .hero__thumbs {
+    display: none; /* Hide thumbnails on tablets/mobile for cleaner look */
+  }
+}
+
 .hero__thumb {
   width: 80px;
   height: 60px;
@@ -950,6 +1001,15 @@ onUnmounted(() => {
   display: flex;
   gap: var(--space-xs);
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .hero__indicators {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    bottom: var(--space-xl);
+  }
 }
 
 .hero__dot {
@@ -990,10 +1050,18 @@ onUnmounted(() => {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  min-height: 0;
+  min-height: 600px;
   display: flex;
   align-items: center;
-  padding: 0;
+  padding: var(--space-4xl) 0;
+}
+
+@media (max-width: 768px) {
+  .about-preview {
+    height: auto;
+    min-height: 0;
+    padding: var(--space-2xl) 0;
+  }
 }
 
 .about-preview .container {
@@ -1040,11 +1108,19 @@ onUnmounted(() => {
 .about-preview__stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-lg); /* Slightly tighter */
+  gap: var(--space-lg);
   padding: var(--space-lg);
   background: rgba(255, 255, 255, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-xl);
+}
+
+@media (max-width: 480px) {
+  .about-preview__stats {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    text-align: center;
+  }
 }
 
 .about-preview__stat {
@@ -1190,10 +1266,18 @@ onUnmounted(() => {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  min-height: 0;
+  min-height: 600px;
   display: flex;
   align-items: center;
-  padding: 0;
+  padding: var(--space-4xl) 0;
+}
+
+@media (max-width: 768px) {
+  .services-section {
+    height: auto;
+    min-height: 0;
+    padding: var(--space-2xl) 0;
+  }
 }
 
 .services-bg {
@@ -1281,7 +1365,13 @@ onUnmounted(() => {
 
 .section-header--right {
   text-align: right;
-  margin-bottom: var(--space-xl); /* Reduced from 4xl */
+  margin-bottom: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .section-header--right {
+    text-align: center;
+  }
 }
 
 .services-grid__canvas {
@@ -1376,6 +1466,7 @@ onUnmounted(() => {
   margin-bottom: var(--space-md);
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1425,7 +1516,14 @@ onUnmounted(() => {
   overflow: hidden;
   background: var(--jungle-deep);
   height: 100vh;
-  min-height: 700px;
+  min-height: 600px;
+}
+
+@media (max-width: 768px) {
+  .shutter-reveal {
+    height: auto;
+    min-height: 0;
+  }
 }
 
 .shutter-reveal__underlay {
@@ -1534,6 +1632,13 @@ onUnmounted(() => {
   margin-inline: auto;
 }
 
+@media (max-width: 480px) {
+  .newsletter-section__form {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+}
+
 .newsletter-section__input {
   flex: 1;
   padding: var(--space-md) var(--space-lg);
@@ -1581,10 +1686,14 @@ onUnmounted(() => {
   z-index: 1;
   display: flex;
   justify-content: center;
-  min-height: 520px; /* Increased to prevent overlapping with nav */
-  position: relative;
-  z-index: 1;
+  min-height: 520px;
   margin-bottom: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+  .testimonials-slider {
+    min-height: 400px;
+  }
 }
 
 .testimonial-card {
@@ -1618,6 +1727,16 @@ onUnmounted(() => {
   color: var(--charcoal);
   margin-bottom: var(--space-xl);
   line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .testimonial-card {
+    padding: var(--space-lg);
+  }
+  
+  .testimonial-card__quote {
+    font-size: var(--text-xl);
+  }
 }
 
 .testimonial-card__author {
@@ -1713,11 +1832,35 @@ onUnmounted(() => {
 /* ═══════════════════════════════════════════
    DONATION
 ═══════════════════════════════════════════ */
+.donation-section {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(to right, rgba(10, 26, 18, 0.9), rgba(10, 26, 18, 0.6)), url('/images/hero/rhino.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Parallax-like effect */
+}
+
 .donation-section__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-4xl);
+  gap: var(--space-3xl);
   align-items: center;
+}
+
+@media (max-width: 1023px) {
+  .donation-section__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+}
+
+.donation-section__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  position: relative;
+  z-index: 1;
 }
 
 .donation-section__title {
@@ -1822,11 +1965,14 @@ onUnmounted(() => {
 ═══════════════════════════════════════════ */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-xl);
 }
 
 .blog-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   border-radius: var(--radius-xl);
   overflow: hidden;
   background: var(--white);
@@ -1856,6 +2002,9 @@ onUnmounted(() => {
 }
 
 .blog-card__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: var(--space-lg);
 }
 
@@ -1883,6 +2032,7 @@ onUnmounted(() => {
   margin-bottom: var(--space-md);
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1893,11 +2043,13 @@ onUnmounted(() => {
   margin-bottom: var(--space-md);
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .blog-card__read-more {
+  margin-top: auto;
   display: inline-flex;
   align-items: center;
   gap: var(--space-xs);
@@ -1929,65 +2081,27 @@ onUnmounted(() => {
 /* ═══════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════ */
+/* ── Standard Responsive Overrides ── */
 @media (max-width: 1024px) {
-  .about-preview__grid,
-  .services-grid,
-  .donation-section__grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-2xl);
-  }
-
-  .services-grid__image {
-    position: static;
-    aspect-ratio: 16/10;
-    order: -1;
-  }
-
-  .hero__thumbs {
-    display: none;
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 768px) {
-  .hero__title {
-    font-size: var(--text-5xl);
-  }
-
-  .about-preview__stats {
-    gap: var(--space-lg);
-  }
-
-  .newsletter-section__form {
-    flex-direction: column;
-  }
-
-  .events-grid {
-    grid-template-columns: 1fr;
-  }
-
   .blog-grid {
     grid-template-columns: 1fr;
   }
-
-  .donation-amounts {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
-@media (max-width: 480px) {
-  .hero {
-    min-height: 600px;
-  }
+/* --- Special Button Override (Plan Your Visit) --- */
+#about-visit-btn:hover :deep(.wild-btn__arrow svg),
+#donation-submit-btn:hover :deep(.wild-btn__arrow svg) {
+  color: var(--electric-lime) !important;
+}
 
-  .about-preview__hours {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md);
-  }
-
-  .about-preview__hours-divider {
-    width: 100%;
-    height: 1px;
-  }
+#about-visit-btn:hover,
+#donation-submit-btn:hover {
+  background: var(--electric-lime) !important;
 }
 </style>

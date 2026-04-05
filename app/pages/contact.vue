@@ -108,5 +108,19 @@ useHead({ title: 'Contact Us' })
 .contact-detail p{font-size:var(--text-sm);color:var(--white-70);margin-top:var(--space-2xs);line-height:1.6}
 .contact-detail a{color:var(--white-70);transition:color .2s}
 .contact-detail a:hover{color:var(--electric-lime)}
-@media(max-width:768px){.contact-grid{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}.page-hero__meta{flex-direction:column;align-items:flex-start}}
+@media (max-width: 768px) {
+  .page-hero { min-height: 40vh; padding-bottom: var(--space-xl); }
+  .page-hero__title { font-size: 3rem; margin-bottom: var(--space-md); }
+  .page-hero__meta { flex-direction: column; align-items: flex-start; gap: var(--space-sm); padding-top: var(--space-md); }
+  .page-hero__label { min-width: 0; font-size: var(--text-lg); }
+
+  .contact-grid { grid-template-columns: 1fr; gap: var(--space-2xl); }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .contact-info-card { padding: var(--space-xl); position: relative; top: 0; }
+}
+
+@media (max-width: 480px) {
+  .page-hero__title { font-size: 2.2rem; }
+  .contact-form h2 { font-size: var(--text-2xl); }
+}
 </style>
