@@ -1,8 +1,0 @@
-const SectionLabel_vue_vue_type_style_index_0_scoped_d065641b_lang = ".marquee-label[data-v-d065641b]{border-bottom:1px solid var(--fog);border-top:1px solid var(--fog);overflow:hidden;padding:var(--space-md) 0}.marquee-label--dark[data-v-d065641b]{border-color:var(--white-10)}.marquee-label__track[data-v-d065641b]{animation:marquee-scroll-d065641b 30s linear infinite;display:flex;width:-moz-max-content;width:max-content}.marquee-label__content[data-v-d065641b]{align-items:center;display:flex;flex-shrink:0;gap:var(--space-xl);padding-right:var(--space-xl)}.marquee-label__text[data-v-d065641b]{color:var(--charcoal-60);font-family:var(--font-accent);font-size:var(--text-sm);font-weight:var(--weight-semibold);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}.marquee-label--dark .marquee-label__text[data-v-d065641b]{color:var(--white-50)}.marquee-label__separator[data-v-d065641b]{align-items:center;color:var(--electric-lime);display:flex;opacity:.6}.marquee-label__separator svg[data-v-d065641b]{height:8px;width:8px}@keyframes marquee-scroll-d065641b{0%{transform:translate(0)}to{transform:translate(-33.333%)}}.marquee-label:hover .marquee-label__track[data-v-d065641b]{animation-play-state:paused}@media(prefers-reduced-motion:reduce){.marquee-label__track[data-v-d065641b]{animation:none}}";
-
-const SectionLabelStyles_D_eVdE8H = [
-  SectionLabel_vue_vue_type_style_index_0_scoped_d065641b_lang
-];
-
-export { SectionLabelStyles_D_eVdE8H as default };
-//# sourceMappingURL=SectionLabel-styles.D_eVdE8H.mjs.map
