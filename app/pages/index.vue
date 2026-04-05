@@ -86,184 +86,308 @@
     <!-- ═══════════════════════════════════════════
          ABOUT PREVIEW
     ═══════════════════════════════════════════ -->
-    <section class="about-preview section section--bone" id="about-preview">
-      <div class="container">
-        <div class="about-preview__grid">
-          <div class="about-preview__info">
-            <div class="about-preview__hours">
-              <div class="about-preview__hours-item">
-                <span class="label">Weekdays</span>
-                <p>9:00 AM - 6:00 PM</p>
-              </div>
-              <div class="about-preview__hours-divider"></div>
-              <div class="about-preview__hours-item">
-                <span class="label">Weekends</span>
-                <p>8:00 AM - 8:00 PM</p>
-              </div>
-            </div>
-
-            <div class="about-preview__stats">
-              <div class="about-preview__stat" v-for="stat in stats" :key="stat.label">
-                <span class="about-preview__stat-number" :data-target="stat.value" ref="statRefs">
-                  {{ stat.value }}{{ stat.suffix }}
-                </span>
-                <span class="about-preview__stat-label label">{{ stat.label }}</span>
-              </div>
-            </div>
-
-            <p class="about-preview__desc">
-              Our sanctuary is home to a diverse collection of animals from across the globe,
-              including majestic big cats, curious primates, colorful birds, and fascinating reptiles.
-              Every visit becomes a chapter in your personal story of discovery.
-            </p>
-
-            <UiWildButton to="/about" variant="outline-dark" :arrow="true" id="about-more-btn">
-              More About Us
-            </UiWildButton>
-          </div>
-
-          <div class="about-preview__image">
-            <img
-              src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=800&q=80"
-              alt="Sanctuary entrance surrounded by lush vegetation"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ═══════════════════════════════════════════
-         SERVICES
+         HORIZONTAL REVEAL GROUP (About + Services)
     ═══════════════════════════════════════════ -->
-    <section class="services-section section section--dark" id="services-section">
-      <!-- Section Background -->
-      <div class="services-section__bg">
-        <img src="/images/backgrounds/wildlife-light.png" alt="" class="img-cover" style="opacity: 0.1; filter: grayscale(1);" />
-        <div class="services-section__overlay"></div>
-      </div>
+    <div class="horizontal-reveal-container" ref="horizontalRevealRef">
+      <div class="horizontal-reveal-wrapper">
+        <!-- ── About Preview ── -->
+        <section class="about-preview section" id="about-preview">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-header__label" style="color: var(--jungle-deep);">Since 1974</span>
+              <h2 class="section-header__title" style="color: var(--charcoal);">Where Wildlife <br/> Meets Wonder</h2>
+            </div>
 
-      <div class="container" style="position: relative; z-index: 2;">
-        <div class="section-header">
-          <span class="section-header__label">What We Offer</span>
-          <h2 class="section-header__title">Discover Our Experiences</h2>
-        </div>
-
-        <div class="services-grid">
-          <div class="services-grid__list">
-            <NuxtLink
-              v-for="(service, i) in services"
-              :key="service.slug"
-              :to="`/services/${service.slug}`"
-              class="service-item glass-card"
-              :class="{ 'service-item--active': activeService === i }"
-              @mouseenter="activeService = i"
-            >
-              <div class="service-item__content">
-                <span class="service-item__number">{{ String(i + 1).padStart(2, '0') }}</span>
-                <div class="service-item__info">
-                  <h3 class="service-item__title">{{ service.title }}</h3>
-                <p class="service-item__desc" v-if="service.description || service.desc">
-                  {{ service.description || service.desc }}
+            <div class="about-preview__grid">
+              <div class="about-preview__info">
+                <p class="about-preview__lead">
+                  A sanctuary for heritage, conservation, and discovery. Experience the majesty of nature's 
+                  foundations while supporting the rescue and rehabilitation of our planet's most vulnerable species.
                 </p>
+
+                <div class="about-preview__stats">
+                  <div class="about-preview__stat" v-for="stat in stats" :key="stat.label">
+                    <span class="about-preview__stat-number" :data-target="stat.value" ref="statRefs">
+                      {{ stat.value }}{{ stat.suffix }}
+                    </span>
+                    <span class="about-preview__stat-label label">{{ stat.label }}</span>
+                  </div>
+                </div>
+
+                <p class="about-preview__desc">
+                  Our sanctuary is home to a diverse collection of animals from across the globe,
+                  including majestic big cats, curious primates, colorful birds, and fascinating reptiles.
+                  Every visit becomes a chapter in your personal story of discovery.
+                </p>
+
+                <div class="about-preview__actions">
+                  <UiWildButton to="/tickets" variant="primary" :arrow="true" id="about-visit-btn">
+                    Plan Your Visit
+                  </UiWildButton>
+                  <UiWildButton to="/about" variant="outline-dark" id="about-more-btn">
+                    Read Our Story
+                  </UiWildButton>
+                </div>
               </div>
+
+              <div class="about-preview__visual">
+                <div class="about-preview__image">
+                  <img
+                    src="https://images.unsplash.com/photo-1534567153574-2b12153a87f0?w=1000&q=80"
+                    alt="Sanctuary entrance surrounded by lush vegetation"
+                    loading="lazy"
+                  />
+                  
+                  <!-- Floating Visiting Card -->
+                  <div class="about-preview__visit-card glass-card">
+                    <div class="visit-card__item">
+                      <div class="visit-card__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      </div>
+                      <div class="visit-card__text">
+                        <span class="label">Opening Hours</span>
+                        <p>8:00 AM - 8:00 PM</p>
+                      </div>
+                    </div>
+                    <div class="visit-card__divider"></div>
+                    <div class="visit-card__item">
+                      <div class="visit-card__icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      </div>
+                      <div class="visit-card__text">
+                        <span class="label">Location</span>
+                        <p>Royal Road, Chitwan</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <span class="service-item__arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </span>
-            </NuxtLink>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Services (Experience Gallery) ── -->
+        <section class="services-section section section--dark" id="services-section">
+          <!-- Full-Section Background Stack -->
+          <div class="services-bg">
+            <div 
+              v-for="(service, i) in services" 
+              :key="'bg-' + service.slug"
+              class="services-bg__layer"
+              :class="{ 'services-bg__layer--active': activeService === i }"
+            >
+              <img :src="service.image" :alt="service.title" class="services-bg__img" />
+            </div>
+            <div class="services-bg__overlay"></div>
           </div>
 
-          <div class="services-grid__image" v-if="services?.length > 0">
-            <img
-              :src="services[activeService]?.image"
-              :alt="services[activeService]?.title"
-              class="services-grid__img"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════
-         EVENTS
-    ═══════════════════════════════════════════ -->
-    <section class="events-section section section--bone" id="events-section">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-header__label">Upcoming Events</span>
-          <h2 class="section-header__title">Our Zoopark Events</h2>
-        </div>
-
-        <div class="events-grid">
-          <NuxtLink
-            v-for="event in events"
-            :key="event.slug"
-            :to="`/events/${event.slug}`"
-            class="event-card"
-          >
-            <div class="event-card__image">
-              <img :src="event.image" :alt="event.title" loading="lazy" />
-              <span class="event-card__badge label">EVENTS</span>
+          <div class="container container--wide" style="position: relative; z-index: 2;">
+            <div class="section-header section-header--right">
+              <span class="section-header__label" style="color: var(--electric-lime);">What We Offer</span>
+              <h2 class="section-header__title" style="color: var(--white);">Discover Our Experiences</h2>
             </div>
-            <div class="event-card__content">
-              <h3 class="event-card__title">{{ event.title }}</h3>
-              <p class="event-card__desc">{{ event.description }}</p>
-              <div class="event-card__meta">
-                <span class="event-card__time">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  {{ event.time || event.start_time }}
-                </span>
-                <span class="event-card__location">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  {{ event.location }}
-                </span>
+
+            <div class="services-grid">
+              <!-- Left Column (Large Canvas) -->
+              <div class="services-grid__canvas"></div>
+
+              <!-- Right Column (Cards List) -->
+              <div class="services-grid__list">
+                <NuxtLink
+                  v-for="(service, i) in services"
+                  :key="service.slug"
+                  :to="`/services/${service.slug}`"
+                  class="service-item"
+                  :class="{ 'service-item--active': activeService === i }"
+                  @mouseenter="handleServiceInteraction(i)"
+                >
+                  <div class="service-item__content">
+                    <div class="service-item__info">
+                      <h3 class="service-item__title">{{ service.title }}</h3>
+                      <p class="service-item__desc" v-if="service.description || service.desc">
+                        {{ service.description || service.desc }}
+                      </p>
+                    </div>
+                  </div>
+                </NuxtLink>
               </div>
             </div>
-          </NuxtLink>
-        </div>
-
-        <div class="events-section__cta">
-          <UiWildButton to="/events" variant="secondary" :arrow="true" id="events-explore-btn">
-            Explore More Events
-          </UiWildButton>
-        </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
 
     <!-- ═══════════════════════════════════════════
-         NEWSLETTER / CTA
+         SHUTTER REVEAL GROUP (Events + Newsletter)
     ═══════════════════════════════════════════ -->
-    <section class="newsletter-section" id="newsletter-section">
-      <img
-        src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=1600&q=80"
-        alt="Wildlife keeper with giraffes"
-        class="newsletter-section__bg"
-        loading="lazy"
-      />
-      <div class="newsletter-section__overlay"></div>
-      <div class="container newsletter-section__content">
-        <span class="label" style="color: var(--electric-lime);">Stay Informed</span>
-        <h2 class="newsletter-section__title">Be the First to Know</h2>
-        <p class="newsletter-section__desc">
-          Subscribe to receive updates about new animal arrivals, upcoming events, and special offers.
-        </p>
-        <form class="newsletter-section__form" @submit.prevent="handleNewsletterSubmit">
-          <input
-            type="email"
-            v-model="newsletterEmail"
-            placeholder="Your email address"
-            required
-            class="newsletter-section__input"
-            id="newsletter-email"
+    <div class="shutter-reveal" ref="shutterGroupRef">
+      <!-- Ground Layer (Revealed Underneath) -->
+      <div class="shutter-reveal__underlay">
+        <section class="newsletter-section" id="newsletter-section">
+          <img
+            src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=1600&q=80"
+            alt="Wildlife keeper with giraffes"
+            class="newsletter-section__bg"
+            loading="lazy"
           />
-          <UiWildButton type="submit" variant="primary" id="newsletter-submit-btn">
-            Subscribe
-          </UiWildButton>
-        </form>
+          <div class="newsletter-section__overlay"></div>
+          <div class="container newsletter-section__content">
+            <span class="label" style="color: var(--electric-lime);">Stay Informed</span>
+            <h2 class="newsletter-section__title">Be the First to Know</h2>
+            <p class="newsletter-section__desc">
+              Subscribe to receive updates about new animal arrivals, upcoming events, and special offers.
+            </p>
+            <form class="newsletter-section__form" @submit.prevent="handleNewsletterSubmit">
+              <input
+                type="email"
+                v-model="newsletterEmail"
+                placeholder="Your email address"
+                required
+                class="newsletter-section__input"
+                id="newsletter-email"
+              />
+              <UiWildButton type="submit" variant="primary" id="newsletter-submit-btn">
+                Subscribe
+              </UiWildButton>
+            </form>
+          </div>
+        </section>
       </div>
-    </section>
+
+      <!-- Shutter Layer (Splits in half) -->
+      <div class="shutter-reveal__split">
+        <!-- Static (Interactive) Layer during Hold -->
+        <div class="shutter-reveal__static">
+          <section class="events-section section section--bone">
+            <div class="container">
+              <div class="section-header">
+                <span class="section-header__label">Upcoming Events</span>
+                <h2 class="section-header__title">Our Zoopark Events</h2>
+              </div>
+              <div class="events-grid">
+                <NuxtLink
+                  v-for="event in staticEvents"
+                  :key="event.slug"
+                  :to="`/events/${event.slug}`"
+                  class="event-card"
+                >
+                  <div class="event-card__image">
+                    <img :src="event.image" :alt="event.title" loading="lazy" />
+                    <span class="event-card__badge label">EVENTS</span>
+                  </div>
+                  <div class="event-card__content">
+                    <h3 class="event-card__title">{{ event.title }}</h3>
+                    <p class="event-card__desc">{{ event.description }}</p>
+                    <div class="event-card__meta">
+                      <span class="event-card__time">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {{ event.time || event.start_time }}
+                      </span>
+                      <span class="event-card__location">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {{ event.location }}
+                      </span>
+                    </div>
+                  </div>
+                </NuxtLink>
+              </div>
+              <div class="events-section__cta">
+                <UiWildButton to="/events" variant="secondary" :arrow="true" id="events-explore-btn">
+                  Explore More Events
+                </UiWildButton>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Top Half Shutter (Animation Only) -->
+        <div class="shutter shutter--top">
+          <section class="events-section section section--bone" id="events-section">
+            <div class="container">
+              <div class="section-header">
+                <span class="section-header__label">Upcoming Events</span>
+                <h2 class="section-header__title">Our Zoopark Events</h2>
+              </div>
+              <div class="events-grid">
+                <NuxtLink
+                  v-for="event in events"
+                  :key="event.slug"
+                  :to="`/events/${event.slug}`"
+                  class="event-card"
+                >
+                  <div class="event-card__image">
+                    <img :src="event.image" :alt="event.title" loading="lazy" />
+                    <span class="event-card__badge label">EVENTS</span>
+                  </div>
+                  <div class="event-card__content">
+                    <h3 class="event-card__title">{{ event.title }}</h3>
+                    <p class="event-card__desc">{{ event.description }}</p>
+                    <div class="event-card__meta">
+                      <span class="event-card__time">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {{ event.time || event.start_time }}
+                      </span>
+                      <span class="event-card__location">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {{ event.location }}
+                      </span>
+                    </div>
+                  </div>
+                </NuxtLink>
+              </div>
+              <div class="events-section__cta">
+                <UiWildButton to="/events" variant="secondary" :arrow="true" id="events-explore-btn">
+                  Explore More Events
+                </UiWildButton>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Bottom Half Shutter -->
+        <div class="shutter shutter--bottom">
+          <section class="events-section section section--bone" aria-hidden="true">
+            <div class="container">
+              <div class="section-header">
+                <span class="section-header__label">Upcoming Events</span>
+                <h2 class="section-header__title">Our Zoopark Events</h2>
+              </div>
+              <div class="events-grid">
+                <NuxtLink
+                  v-for="event in events"
+                  :key="event.slug"
+                  tabindex="-1"
+                  class="event-card"
+                >
+                  <div class="event-card__image">
+                    <img :src="event.image" aria-hidden="true" />
+                    <span class="event-card__badge label">EVENTS</span>
+                  </div>
+                  <div class="event-card__content">
+                    <h3 class="event-card__title">{{ event.title }}</h3>
+                    <p class="event-card__desc">{{ event.description }}</p>
+                    <div class="event-card__meta">
+                      <span class="event-card__time">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        {{ event.time || event.start_time }}
+                      </span>
+                      <span class="event-card__location">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        {{ event.location }}
+                      </span>
+                    </div>
+                  </div>
+                </NuxtLink>
+              </div>
+              <div class="events-section__cta">
+                <div class="wild-btn wild-btn--secondary">Explore More Events</div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════
          TESTIMONIALS
@@ -549,6 +673,21 @@ const testimonials = ref(staticTestimonials)
 const blogPosts = ref(staticBlogPosts)
 
 const activeService = ref(0)
+const shutterGroupRef = ref(null)
+const horizontalRevealRef = ref(null)
+let serviceCycleInterval = null
+
+function startServiceCycle() {
+  if (serviceCycleInterval) clearInterval(serviceCycleInterval)
+  serviceCycleInterval = setInterval(() => {
+    activeService.value = (activeService.value + 1) % services.value.length
+  }, 3000)
+}
+
+function handleServiceInteraction(index) {
+  activeService.value = index
+  startServiceCycle() // Reset interval on interaction
+}
 
 // ── Events Section Toggle ──
 const showEvents = ref(true)
@@ -598,6 +737,7 @@ function handleNewsletterSubmit() {
 // ── Lifecycle ──
 onMounted(async () => {
   resetSlideTimer()
+  startServiceCycle()
 
   // Initial play for first slide
   if (videoRefs[0]) {
@@ -610,16 +750,70 @@ onMounted(async () => {
   setTimeout(() => {
     fadeUp('.about-preview__info > *', { stagger: 0.1, trigger: '.about-preview' })
     clipReveal('.about-preview__image img', { trigger: '.about-preview__image' })
+
+    // ── Horizontal Reveal Animation (About + Services) ──
+    if (horizontalRevealRef.value) {
+      const wrapper = horizontalRevealRef.value.querySelector('.horizontal-reveal-wrapper')
+      
+      const horizontalTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: horizontalRevealRef.value,
+          start: 'top top',
+          end: '+=300%', // Decreased weight as requested
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
+          anticipatePin: 1
+        }
+      })
+
+      // Phase 1: The Slide (0 to 0.7 of the timeline)
+      horizontalTl.to(wrapper, {
+        x: () => -(wrapper.scrollWidth - window.innerWidth),
+        ease: 'none',
+        duration: 2 // Arbitrary duration to establish the 70/30 split
+      })
+
+      // Phase 2: The Hold (0.7 to 1.0 of the timeline)
+      horizontalTl.to({}, { duration: 1 }) // Dummy hold period
+    }
+
     fadeUp('.donation-section__info > *', { stagger: 0.1, trigger: '.donation-section' })
-    // Removed staggerChildren for events and blog to ensure they are visible immediately
-    // staggerChildren('.events-grid', '.event-card', { stagger: 0.15 })
-    // staggerChildren('.blog-grid', '.blog-card', { stagger: 0.12 })
-    refresh() // Refresh ScrollTrigger to ensure triggers match new DOM positions
+
+    // ── Shutter Reveal Animation ──
+    if (shutterGroupRef.value) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: shutterGroupRef.value,
+          start: 'top top',
+          end: '+=150%', // Standard snappy weight
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
+        }
+      })
+
+      // Phase 1: Minimal Hold (0.4s equivalent)
+      tl.to({}, { duration: 0.4 }) 
+
+      // The Swap: Hide Static, Show Shutters
+      tl.set('.shutter-reveal__static', { autoAlpha: 0 })
+      tl.set('.shutter', { autoAlpha: 1 })
+
+      // Phase 2: The Cut
+      tl.to('.shutter--top', { yPercent: -100, ease: 'power2.in' }, '>-0.01')
+      tl.to('.shutter--bottom', { yPercent: 100, ease: 'power2.in' }, '<')
+      tl.to('.shutter-reveal__underlay', { opacity: 1, visibility: 'visible', ease: 'none' }, '<')
+    }
+
+    refresh()
   }, 1200)
 })
 
 onUnmounted(() => {
   if (slideInterval) clearInterval(slideInterval)
+  if (serviceCycleInterval) clearInterval(serviceCycleInterval)
 })
 </script>
 
@@ -776,46 +970,81 @@ onUnmounted(() => {
 }
 
 /* ═══════════════════════════════════════════
-   ABOUT PREVIEW
+   HORIZONTAL REVEAL GROUP
 ═══════════════════════════════════════════ */
-.about-preview__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-4xl);
-  align-items: center;
+.horizontal-reveal-container {
+  position: relative;
+  overflow: hidden;
+  background: var(--bone);
 }
 
-.about-preview__hours {
+.horizontal-reveal-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 200vw;
+}
+
+.about-preview {
+  background-color: var(--bone);
+  position: relative;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  min-height: 0;
   display: flex;
   align-items: center;
-  gap: var(--space-xl);
-  margin-bottom: var(--space-2xl);
-  padding-bottom: var(--space-xl);
-  border-bottom: 1px solid var(--fog);
+  padding: 0;
 }
 
-.about-preview__hours-item .label {
-  color: var(--canopy-green);
-  display: block;
+.about-preview .container {
+  max-height: 100%;
+}
+
+.about-preview__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .about-preview__grid {
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: var(--space-4xl);
+  }
+}
+
+.about-preview__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.about-preview__lead {
+  font-family: var(--font-body);
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--jungle-deep);
+  font-weight: var(--weight-medium);
   margin-bottom: var(--space-2xs);
 }
 
-.about-preview__hours-item p {
-  font-size: var(--text-md);
-  font-weight: var(--weight-medium);
-  color: var(--charcoal);
-}
-
-.about-preview__hours-divider {
-  width: 1px;
-  height: 40px;
-  background: var(--fog);
+.about-preview__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: center;
+  margin-top: var(--space-xs);
 }
 
 .about-preview__stats {
-  display: flex;
-  gap: var(--space-2xl);
-  margin-bottom: var(--space-2xl);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg); /* Slightly tighter */
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-xl);
 }
 
 .about-preview__stat {
@@ -824,33 +1053,114 @@ onUnmounted(() => {
 }
 
 .about-preview__stat-number {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  color: var(--jungle-dark);
+  font-family: var(--font-accent);
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-black);
+  color: var(--jungle-deep);
   line-height: 1;
 }
 
 .about-preview__stat-label {
-  color: var(--charcoal-60);
+  font-size: 10px;
+  color: var(--jungle-deep);
+  letter-spacing: 0.1em;
+  opacity: 0.7;
   margin-top: var(--space-2xs);
 }
 
 .about-preview__desc {
-  margin-bottom: var(--space-xl);
-  max-width: 480px;
+  font-size: var(--text-md);
+  color: var(--charcoal-60);
+  line-height: var(--leading-relaxed);
+  max-width: 600px;
+}
+
+.about-preview__visual {
+  position: relative;
 }
 
 .about-preview__image {
   position: relative;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-2xl);
+  overflow: visible;
 }
 
 .about-preview__image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-2xl);
+}
+
+.about-preview__visit-card {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(20px);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 15px 30px rgba(10, 26, 18, 0.1);
+  z-index: 5;
+}
+
+@media (max-width: 1023px) {
+  .about-preview__visit-card {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: var(--space-xl);
+  }
+}
+
+.visit-card__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.visit-card__icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--jungle-deep);
+  color: var(--white);
+  border-radius: var(--radius-lg);
+}
+
+.visit-card__icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.visit-card__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.visit-card__text .label {
+  font-size: 10px;
+  color: var(--jungle-deep);
+  opacity: 0.6;
+}
+
+.visit-card__text p {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--jungle-deep);
+}
+
+.visit-card__divider {
+  height: 1px;
+  background: rgba(10, 26, 18, 0.1);
 }
 
 /* ═══════════════════════════════════════════
@@ -858,78 +1168,96 @@ onUnmounted(() => {
 ═══════════════════════════════════════════ */
 .services-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3xl);
-  align-items: stretch;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 1024px) {
+  .services-grid {
+    grid-template-columns: 1fr 340px; /* Reference: cards on right (~30%) */
+    gap: var(--space-2xl);
+  }
 }
 
 .services-grid__list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
-  height: 100%;
+  z-index: 2;
 }
 
 .services-section {
   position: relative;
   overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  padding: 0;
 }
 
-.services-section__bg {
+.services-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
-  opacity: 0.15;
 }
 
-.services-section__overlay {
+.services-bg__layer {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, var(--jungle-dark) 100%);
+  opacity: 0;
+  transition: opacity 1000ms var(--ease-out-expo);
+  transform: scale(1.05);
+  transition-property: opacity, transform;
+}
+
+.services-bg__layer--active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.services-bg__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.services-bg__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    rgba(10, 26, 18, 0.95) 0%,
+    rgba(10, 26, 18, 0.8) 30%,
+    rgba(10, 26, 18, 0.4) 60%,
+    transparent 100%
+  );
+  z-index: 1;
 }
 
 .service-item {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-md) var(--space-lg);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 0;
+  flex-direction: column;
+  padding: var(--space-md) var(--space-lg); /* Reduced for vertical compression */
+  border-radius: var(--radius-lg);
   color: var(--white);
   cursor: pointer;
-  transition: all 400ms var(--ease-out-expo);
-  flex: 1; /* Stretch vertically */
+  transition: all 600ms var(--ease-out-expo);
+  background: transparent;
+  border: none;
 }
 
 .service-item__content {
   display: flex;
-  align-items: center;
-  gap: var(--space-md);
+  flex-direction: column;
 }
 
-.service-item:hover,
 .service-item--active {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--electric-lime);
-  box-shadow: 
-    0 10px 40px rgba(186, 255, 41, 0.1), 
-    0 0 20px rgba(186, 255, 41, 0.15) inset;
-  transform: translateY(-4px) scale(1.02);
-  z-index: 2;
+  background: rgba(255, 255, 255, 0.08); /* Reference image highlight box */
+  backdrop-filter: blur(10px);
 }
 
-.service-item__number {
-  font-family: var(--font-accent);
-  font-size: var(--text-xs);
-  color: var(--white-50);
-  min-width: 24px;
-}
-
-.service-item--active .service-item__number {
-  color: var(--electric-lime);
-}
+/* Service item numbers removed as per reference */
 
 .service-item__info {
   flex: 1;
@@ -937,66 +1265,28 @@ onUnmounted(() => {
 
 .service-item__title {
   font-family: var(--font-body);
-  font-size: var(--text-lg);
-  font-weight: var(--weight-semibold);
-  margin-bottom: var(--space-2xs);
-}
-
-.service-item--active .service-item__desc,
-.service-item:hover .service-item__desc {
-  opacity: 1;
-  max-height: 200px;
-  margin-top: var(--space-xs);
+  font-size: var(--text-lg); /* Compact title */
+  font-weight: var(--weight-bold);
+  margin-bottom: var(--space-2xs); /* Tighter spacing */
+  color: var(--white);
 }
 
 .service-item__desc {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs); /* Compact desc */
   color: var(--white-70);
-  opacity: 0.6; /* Higher base visibility */
-  max-height: 0;
-  overflow: hidden;
-  transition: all 500ms var(--ease-out-expo);
+  opacity: 0.8;
+  line-height: 1.5;
+  max-width: 340px;
 }
 
-.service-item__arrow {
-  width: 24px;
-  height: 24px;
-  opacity: 0;
-  transition: all var(--duration-base) ease;
-  color: var(--electric-lime);
+.section-header--right {
+  text-align: right;
+  margin-bottom: var(--space-xl); /* Reduced from 4xl */
 }
 
-.service-item--active .service-item__arrow svg,
-.service-item:hover .service-item__arrow svg {
-  transform: rotate(45deg) scale(1.05);
-}
-
-.service-item--active .service-item__arrow,
-.service-item:hover .service-item__arrow {
-  opacity: 1;
-}
-
-.service-item {
-  transition: all var(--duration-base) var(--ease-out-expo);
-}
-
-.service-item:hover {
-  transform: scale(1.02);
-}
-
-.services-grid__image {
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  aspect-ratio: 3 / 4;
-  position: sticky;
-  top: 100px;
-}
-
-.services-grid__img {
-  width: 100%;
+.services-grid__canvas {
   height: 100%;
-  object-fit: cover;
-  transition: opacity 500ms ease;
+  pointer-events: none;
 }
 
 /* ═══════════════════════════════════════════
@@ -1004,9 +1294,21 @@ onUnmounted(() => {
 ═══════════════════════════════════════════ */
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: 1fr;
   gap: var(--space-xl);
   margin-bottom: var(--space-2xl);
+}
+
+@media (min-width: 768px) {
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .events-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .event-card {
@@ -1015,16 +1317,19 @@ onUnmounted(() => {
   background: var(--white);
   transition: all var(--duration-base) var(--ease-out-expo);
   box-shadow: var(--shadow-sm);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
 }
 
 .event-card__image {
   position: relative;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 7; /* Reference: much shorter image */
   overflow: hidden;
 }
 
@@ -1051,19 +1356,22 @@ onUnmounted(() => {
 }
 
 .event-card__content {
-  padding: var(--space-lg);
+  padding: var(--space-lg); /* Reduced for compression */
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-card__title {
   font-family: var(--font-body);
-  font-size: var(--text-lg);
+  font-size: var(--text-lg); /* More compact title */
   font-weight: var(--weight-bold);
   color: var(--charcoal);
-  margin-bottom: var(--space-sm);
+  margin-bottom: var(--space-2xs); /* Tighter spacing */
 }
 
 .event-card__desc {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs); /* Smaller description */
   color: var(--charcoal-60);
   margin-bottom: var(--space-md);
   display: -webkit-box;
@@ -1087,17 +1395,103 @@ onUnmounted(() => {
   color: var(--charcoal-60);
 }
 
+.events-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  padding: var(--space-4xl) 0;
+  box-sizing: border-box;
+}
+
 .events-section__cta {
   text-align: center;
+  margin-top: var(--space-xl);
+}
+
+/* Specific override for events CTA button arrow color on hover */
+.events-section__cta :deep(.wild-btn:hover .wild-btn__arrow svg) {
+  color: var(--jungle-deep) !important;
 }
 
 /* ═══════════════════════════════════════════
    NEWSLETTER
 ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   SHUTTER REVEAL
+═══════════════════════════════════════════ */
+.shutter-reveal {
+  position: relative;
+  overflow: hidden;
+  background: var(--jungle-deep);
+  height: 100vh;
+  min-height: 700px;
+}
+
+.shutter-reveal__underlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0; 
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shutter-reveal__split {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+}
+
+.shutter-reveal__static {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.shutter {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  visibility: hidden; /* Start hidden */
+  opacity: 0;
+  backface-visibility: hidden;
+  will-change: transform, clip-path;
+  z-index: 2;
+}
+
+.shutter--top {
+  clip-path: inset(0 0 50% 0);
+  pointer-events: auto;
+}
+
+.shutter--bottom {
+  clip-path: inset(50% 0 0 0);
+}
+
+.shutter .events-section {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.shutter-reveal__underlay .newsletter-section {
+  width: 100%;
+  height: 100%;
+}
+
 .newsletter-section {
   position: relative;
   padding: var(--space-6xl) 0;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  min-height: 600px;
 }
 
 .newsletter-section__bg {
@@ -1294,28 +1688,25 @@ onUnmounted(() => {
 }
 
 .testimonials-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-round);
-  background: var(--fog);
+  width: 12px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--charcoal-10);
   border: none;
   cursor: pointer;
-  transition: all var(--duration-base) ease;
+  transition: all 400ms var(--ease-out-expo);
+  padding: 0;
 }
 
 .testimonials-dot--active {
   background: var(--jungle-dark);
-  width: 24px;
-}
-
-.hero__dot--active {
-  background: var(--jungle-dark);
-  width: 40px;
+  width: 48px;
+  box-shadow: 0 0 15px rgba(10, 26, 18, 0.2);
 }
 
 .testimonials-dots {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
 }
 

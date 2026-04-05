@@ -12,9 +12,10 @@
     <span class="wild-btn__content">
       <slot />
     </span>
-    <span v-if="arrow" class="wild-btn__arrow">
+    <span v-if="arrow" class="wild-btn__arrow" :class="{ 'wild-btn__arrow--back': back }">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M7 17L17 7M17 7H7M17 7v10"/>
+        <path v-if="back" d="M17 17L7 7M7 7V17M7 7H17"/>
+        <path v-else d="M7 17L17 7M17 7H7M17 7v10"/>
       </svg>
     </span>
   </component>
@@ -31,6 +32,7 @@ const props = defineProps({
   type: { type: String, default: 'button' },
   arrow: { type: Boolean, default: false },
   iconOnly: { type: Boolean, default: false },
+  back: { type: Boolean, default: false },
 })
 
 const tag = computed(() => {
@@ -44,7 +46,7 @@ const tag = computed(() => {
 .wild-btn {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   border-radius: var(--radius-pill);
   font-family: var(--font-accent);
   font-weight: var(--weight-semibold);
@@ -58,7 +60,7 @@ const tag = computed(() => {
 }
 
 .wild-btn:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
 }
 
 .wild-btn__content {
@@ -86,8 +88,17 @@ const tag = computed(() => {
   transition: transform var(--duration-base) var(--ease-out-expo);
 }
 
+.wild-btn:hover .wild-btn__arrow {
+  transform: scale(1.2);
+}
+
 .wild-btn:hover .wild-btn__arrow svg {
-  transform: rotate(45deg) scale(1.05);
+  transform: rotate(45deg) scale(1.1);
+  color: var(--white);
+}
+
+.wild-btn:hover .wild-btn__arrow--back svg {
+  transform: rotate(-45deg) scale(1.1);
 }
 
 /* ── Sizes ── */

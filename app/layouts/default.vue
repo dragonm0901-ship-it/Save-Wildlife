@@ -1,7 +1,6 @@
 <template>
   <div class="app-wrapper">
     <NavigationTheNavbar />
-    <NavigationCartDrawer />
     <main class="main-content">
       <slot />
     </main>

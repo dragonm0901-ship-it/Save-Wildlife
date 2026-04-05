@@ -3,17 +3,19 @@
     ref="headerRef"
     class="navbar"
     :class="{
-      'navbar--scrolled': isScrolled,
-      'navbar--hidden': isHidden,
+      'navbar--scrolled': isScrolled || isAuthPage,
+      'navbar--hidden': isHidden && !isHovered,
       'navbar--menu-open': isMenuOpen
     }"
+    @mouseenter="isHovered = true"
+    @mouseleave="isHovered = false"
   >
     <div class="navbar__inner">
       <button
         id="nav-menu-toggle"
         class="navbar__menu-btn"
         aria-label="Toggle navigation menu"
-        @click="toggleMenu"
+        @click.stop="toggleMenu"
       >
         <span class="navbar__menu-icon">
           <span class="navbar__menu-line"></span>
@@ -23,24 +25,14 @@
       </button>
 
       <NuxtLink to="/" class="navbar__logo" aria-label="Wildpark Home" @click="closeMenu">
-        <div class="logo-flip">
-          <div class="logo-flip__inner">
-            <div class="logo-flip__front">
-              <img src="/images/logo.png" alt="Wildpark Rhino Badge" />
-            </div>
-            <div class="logo-flip__back">
-              <img src="/images/logo2.png" alt="Visit Nepal Badge" />
-            </div>
-          </div>
-        </div>
-        <span class="navbar__logo-text">SAVE WILDLIFE</span>
+        <span class="navbar__logo-text">WILDPARK</span>
       </NuxtLink>
 
       <div class="navbar__actions">
         <NuxtLink
           v-if="isAuthenticated"
           to="/account"
-          class="navbar__action-btn"
+          class="navbar__action-btn navbar__action-btn--user"
           aria-label="My account"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg>
@@ -48,7 +40,7 @@
         <NuxtLink
           v-else
           to="/auth/login"
-          class="navbar__action-btn"
+          class="navbar__action-btn navbar__action-btn--user"
           aria-label="Sign in"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/></svg>
@@ -58,7 +50,7 @@
           id="nav-cart-toggle"
           class="navbar__action-btn navbar__cart-btn"
           aria-label="Shopping cart"
-          @click="cartStore.toggleCart()"
+          @click.stop="toggleDropdown('cart')"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span v-if="cartStore.totalItems > 0" class="navbar__cart-badge">{{ cartStore.totalItems }}</span>
@@ -66,59 +58,88 @@
       </div>
     </div>
 
-    <!-- Full-screen Navigation Menu -->
-    <Transition name="nav-menu">
-      <div v-if="isMenuOpen" class="nav-overlay" @click.self="closeMenu" data-lenis-prevent>
-        <nav class="nav-overlay__content" role="navigation">
-          <div class="nav-overlay__links" ref="navLinksRef">
+    <!-- ── Floating Dropdown Panels ── -->
+    <Transition name="dropdown">
+      <div 
+        v-if="activeDropdown" 
+        class="navbar__dropdown"
+        :class="{ 'navbar__dropdown--cart': activeDropdown === 'cart' }"
+        data-lenis-prevent
+        @click.stop
+      >
+        <!-- Navigation Menu Panel -->
+        <div v-if="activeDropdown === 'menu'" class="navbar__panel navbar__panel--menu">
+          <div class="nav-grid">
             <NuxtLink
-              v-for="(link, i) in navLinks"
+              v-for="link in navLinks"
               :key="link.path"
               :to="link.path"
-              class="nav-overlay__link"
-              :style="{ transitionDelay: `${i * 60 + 100}ms` }"
-              @click="closeMenu"
+              class="nav-grid__item"
+              @click="closeDropdown"
             >
-              <span class="nav-overlay__link-number">{{ String(i + 1).padStart(2, '0') }}</span>
-              <span class="nav-overlay__link-text">{{ link.label }}</span>
-              <span class="nav-overlay__link-arrow">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-              </span>
+              <span class="nav-grid__text">{{ link.label }}</span>
             </NuxtLink>
           </div>
+        </div>
 
-          <div class="nav-overlay__footer">
-            <div class="nav-overlay__social">
-              <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
-              <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="X/Twitter">Twitter</a>
-              <a href="https://pinterest.com" target="_blank" rel="noopener" aria-label="Pinterest">Pinterest</a>
+        <!-- Quick Cart Panel -->
+        <div v-if="activeDropdown === 'cart'" class="navbar__panel navbar__panel--cart">
+          <div class="cart-quick">
+            <div v-if="cartStore.items.length === 0" class="cart-quick__empty">
+              <p>Your cart is empty</p>
+              <NuxtLink to="/tickets" class="label-link" @click="closeDropdown">Browse Tickets</NuxtLink>
             </div>
-            <p class="nav-overlay__contact">info@savewildlife.org.np</p>
+            <div v-else class="cart-quick__content">
+              <div class="cart-quick__items">
+              <div v-for="item in cartStore.items" :key="item.id" class="cart-quick__item">
+                <div class="cart-quick__item-card">
+                  <div class="cart-quick__item-info">
+                    <span class="cart-quick__item-name">{{ item.name }}</span>
+                    <span class="cart-quick__item-details">Qty: {{ item.quantity }} • ${{ (item.price * item.quantity).toFixed(2) }}</span>
+                  </div>
+                  <button class="cart-quick__remove" @click="cartStore.removeItem(item.id)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+              </div>
+              </div>
+              <div class="cart-quick__footer">
+                <div class="cart-quick__total">
+                  <span>Total</span>
+                  <span>{{ cartStore.formattedSubtotal }}</span>
+                </div>
+                <NuxtLink to="/checkout" class="cart-quick__checkout" @click="closeDropdown">
+                  Checkout
+                </NuxtLink>
+              </div>
+            </div>
           </div>
-        </nav>
+        </div>
       </div>
     </Transition>
   </header>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, watch, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { useCartStore } from '~/stores/cart'
 import { useAuth } from '~/composables/useAuth'
 import { useLenis } from '~/composables/useLenis'
 import gsap from 'gsap'
 
-import '~/assets/css/logo-flip.css'
-
+const route = useRoute()
 const cartStore = useCartStore()
 const { isAuthenticated, initialize } = useAuth()
 const { stop: stopLenis, start: startLenis } = useLenis()
 
 const headerRef = ref(null)
-const navLinksRef = ref(null)
 const isScrolled = ref(false)
 const isHidden = ref(false)
-const isMenuOpen = ref(false)
+const isHovered = ref(false)
+const activeDropdown = ref(null) // 'menu' | 'cart' | null
+
+const isAuthPage = computed(() => route.path.startsWith('/auth'))
 
 let lastScrollY = 0
 let scrollThreshold = 80
@@ -141,7 +162,8 @@ function handleScroll() {
 
   isScrolled.value = currentScrollY > scrollThreshold
 
-  if (currentScrollY > lastScrollY && currentScrollY > 300) {
+  // Hide on scroll down after threshold, only show when at the top
+  if (currentScrollY > 100 && !isAuthPage.value) {
     isHidden.value = true
   } else {
     isHidden.value = false
@@ -150,20 +172,41 @@ function handleScroll() {
   lastScrollY = currentScrollY
 }
 
-function toggleMenu() {
-  isMenuOpen.value = !isMenuOpen.value
-  document.body.style.overflow = isMenuOpen.value ? 'hidden' : ''
-  if (isMenuOpen.value) {
-    stopLenis()
-  } else {
-    startLenis()
+function handleMouseMove(e) {
+  // If mouse is near the top edge (e.g., < 60px), show the navbar
+  if (e.clientY < 60) {
+    isHidden.value = false
+  } else if (!isScrolled.value || window.scrollY < 100) {
+    // If we're at the top, it should be visible anyway
+    isHidden.value = false
+  } else if (!isHovered.value) {
+    // Hide if mouse moves away from the top and we're not hovering the navbar itself
+    isHidden.value = true
   }
 }
 
+function toggleDropdown(type) {
+  if (activeDropdown.value === type) {
+    activeDropdown.value = null
+  } else {
+    activeDropdown.value = type
+  }
+}
+
+function closeDropdown() {
+  activeDropdown.value = null
+}
+
+// Keep menu state in sync for some animations
+const isMenuOpen = computed(() => activeDropdown.value === 'menu')
+
+// Auto-show/hide menu logic refactoring
+function toggleMenu() {
+  toggleDropdown('menu')
+}
+
 function closeMenu() {
-  isMenuOpen.value = false
-  document.body.style.overflow = ''
-  startLenis()
+  closeDropdown()
 }
 
 // Staggered menu animation
@@ -187,10 +230,14 @@ watch(isMenuOpen, async (open) => {
 onMounted(() => {
   initialize()
   window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('mousemove', handleMouseMove)
+  window.addEventListener('click', closeDropdown)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('mousemove', handleMouseMove)
+  window.removeEventListener('click', closeDropdown)
   document.body.style.overflow = ''
 })
 </script>
@@ -198,42 +245,56 @@ onUnmounted(() => {
 <style scoped>
 .navbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  min-width: 320px;
   z-index: var(--z-sticky);
-  transition: transform 400ms var(--ease-out-expo), background-color 400ms ease;
+  transition: all 400ms var(--ease-out-expo);
+  pointer-events: none; /* Let clicks pass through empty areas */
 }
 
 .navbar--hidden:not(.navbar--menu-open) {
-  transform: translateY(-100%);
+  transform: translate(-50%, -150%);
 }
 
-.navbar--scrolled {
-  background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur));
-  -webkit-backdrop-filter: blur(var(--glass-blur));
-  border-bottom: 1px solid var(--glass-border);
+/* ── Shared Panels (Header & Dropdowns) ── */
+.navbar__box,
+.navbar__inner,
+.navbar__panel {
+  background: rgba(18, 18, 18, 0.88);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.navbar--scrolled .navbar__inner,
+.navbar--scrolled .navbar__panel {
+  background: rgba(10, 26, 18, 0.9);
 }
 
 .navbar__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-md) var(--container-pad);
-  max-width: var(--container-2xl);
-  margin-inline: auto;
+  gap: var(--space-3xl);
+  padding: var(--space-md) var(--space-2xl);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.35);
+  pointer-events: auto;
+  transition: all 400ms ease;
 }
 
 /* ── Hamburger Menu Button ── */
 .navbar__menu-btn {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 60px; /* Scaled from 40px */
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-round);
+  border-radius: 4px;
   border: 1px solid var(--white-20);
   transition: border-color var(--duration-base) ease;
 }
@@ -243,36 +304,39 @@ onUnmounted(() => {
 }
 
 .navbar__menu-icon {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 18px;
+  position: relative;
+  width: 28px;
+  height: 20px; /* Precise height for symmetry */
 }
 
 .navbar__menu-line {
+  position: absolute;
+  left: 0;
   display: block;
-  height: 1.5px;
+  width: 100%;
+  height: 2px;
   background: var(--white);
   border-radius: 1px;
-  transition: all 350ms var(--ease-out-expo);
-  transform-origin: center;
+  transition: all 400ms var(--ease-out-expo);
 }
 
-.navbar__menu-line:nth-child(2) {
-  width: 12px;
-}
+.navbar__menu-line:nth-child(1) { top: 0; }
+.navbar__menu-line:nth-child(2) { top: 50%; transform: translateY(-50%); width: 18px; }
+.navbar__menu-line:nth-child(3) { bottom: 0; }
 
 .navbar--menu-open .navbar__menu-line:nth-child(1) {
-  transform: translateY(5.5px) rotate(45deg);
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
 }
 
 .navbar--menu-open .navbar__menu-line:nth-child(2) {
   opacity: 0;
-  transform: scaleX(0);
+  transform: translateY(-50%) scaleX(0);
 }
 
 .navbar--menu-open .navbar__menu-line:nth-child(3) {
-  transform: translateY(-5.5px) rotate(-45deg);
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
 }
 
 /* ── Logo ── */
@@ -281,25 +345,23 @@ onUnmounted(() => {
   align-items: center;
   gap: var(--space-xs);
   color: var(--white);
-  transition: opacity var(--duration-base) ease;
-}
-
-.navbar__logo:hover {
-  opacity: 0.8;
+  transition: transform 300ms ease;
 }
 
 .navbar__logo-icon {
-  width: 36px;
-  height: 36px;
-  color: var(--electric-lime);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  position: relative;
 }
 
 .navbar__logo-text {
-  font-family: var(--font-accent);
-  font-size: 2.25rem; /* ~200% of text-lg (which is usually ~1.125rem) */
-  font-weight: var(--weight-bold);
-  letter-spacing: 0.15em;
+  font-family: var(--font-body);
+  font-size: var(--text-2xl); /* Scaled up */
+  font-weight: 900;
+  letter-spacing: 0.2em;
   color: var(--white);
+  text-transform: uppercase;
 }
 
 /* ── Action Buttons ── */
@@ -311,25 +373,33 @@ onUnmounted(() => {
 
 .navbar__action-btn {
   position: relative;
-  width: 44px;
-  height: 44px;
+  width: 60px; /* Scaled from 40px */
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-round);
-  border: 1px solid var(--white-20);
+  border-radius: 4px;
   color: var(--white);
   transition: all var(--duration-base) ease;
 }
 
-.navbar__action-btn:hover {
-  border-color: var(--electric-lime);
-  color: var(--electric-lime);
+.navbar__action-btn--user {
+  background: var(--electric-lime);
+  color: var(--jungle-deep);
+}
+
+.navbar__action-btn--user:hover {
+  transform: scale(1.1);
+  background: var(--electric-lime);
+}
+
+.navbar__cart-btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .navbar__action-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 28px; /* Scaled internal icons */
+  height: 28px;
 }
 
 .navbar__cart-badge {
@@ -349,152 +419,167 @@ onUnmounted(() => {
   border-radius: var(--radius-round);
 }
 
-/* ── Navigation Overlay ── */
-.nav-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-overlay);
-  background: var(--jungle-deep);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
+/* ── Dropdown System ── */
+.navbar__dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  width: 100%;
+  pointer-events: auto;
+  z-index: 1000;
 }
 
-.nav-overlay__content {
-  flex: 1;
+.navbar__dropdown--cart {
+  min-width: 360px;
+}
+
+.navbar__panel {
+  padding: var(--space-md) var(--space-xl);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  height: auto;
+}
+
+/* ── Navigation Grid ── */
+.nav-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-xs) var(--space-md);
+}
+
+.nav-grid__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs) 0;
+  color: var(--white-90);
+  text-align: center;
+  transition: all 300ms ease;
+}
+
+.nav-grid__item:hover {
+  color: var(--electric-lime);
+  transform: translateX(5px);
+}
+
+.nav-grid__number {
+  font-family: var(--font-accent);
+  font-size: 10px;
+  color: var(--white-30);
+}
+
+.nav-grid__text {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Quick Cart ── */
+.cart-quick__empty {
+  text-align: center;
+  padding: var(--space-xl);
+  color: var(--white-40);
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 100px var(--container-pad) var(--space-2xl);
-  max-width: var(--container-xl);
-  margin-inline: auto;
-  width: 100%;
+  align-items: center;
 }
 
-.nav-overlay__links {
+.cart-quick__items {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
 }
 
-.nav-overlay__link {
+.cart-quick__item {
+  flex: 0 0 auto;
+}
+
+.cart-quick__item-card {
   display: flex;
   align-items: center;
-  gap: var(--space-lg);
-  padding: var(--space-md) 0;
-  border-bottom: 1px solid var(--white-10);
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.cart-quick__item-name {
+  display: block;
+  font-size: 11px;
+  font-weight: var(--weight-bold);
   color: var(--white);
-  transition: all 400ms var(--ease-out-expo);
-  opacity: 0;
-  transform: translateY(20px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.nav-menu-enter-active .nav-overlay__link {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.nav-overlay__link:hover {
-  padding-left: var(--space-lg);
-  color: var(--electric-lime);
-}
-
-.nav-overlay__link-number {
-  font-family: var(--font-accent);
-  font-size: var(--text-xs);
-  color: var(--white-50);
-  min-width: 24px;
-}
-
-.nav-overlay__link-text {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  flex: 1;
-}
-
-.nav-overlay__link-arrow {
-  width: 24px;
-  height: 24px;
-  opacity: 0;
-  transition: all 400ms var(--ease-out-expo);
-}
-
-.nav-overlay__link-arrow svg {
-  width: 100%;
-  height: 100%;
-}
-
-.nav-overlay__link:hover .nav-overlay__link-arrow {
-  opacity: 1;
-}
-
-.nav-overlay__link:hover .nav-overlay__link-arrow svg {
-  transform: rotate(45deg) scale(1.1);
-}
-
-.nav-overlay__link-arrow svg {
-  transition: transform 400ms var(--ease-out-expo);
-}
-
-.nav-overlay__footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--space-2xl);
-  margin-top: auto;
-  border-top: 1px solid var(--white-10);
-}
-
-.nav-overlay__social {
-  display: flex;
-  gap: var(--space-xl);
-}
-
-.nav-overlay__social a {
-  font-family: var(--font-accent);
-  font-size: var(--text-sm);
-  color: var(--white-50);
-  transition: color var(--duration-base) ease;
-}
-
-.nav-overlay__social a:hover {
-  color: var(--electric-lime);
-}
-
-.nav-overlay__contact {
-  font-family: var(--font-accent);
-  font-size: var(--text-sm);
+.cart-quick__item-details {
+  font-size: 10px;
   color: var(--white-50);
 }
 
-/* ── Nav Menu Transition ── */
-.nav-menu-enter-active {
-  transition: opacity 400ms var(--ease-out-expo);
-}
-
-.nav-menu-leave-active {
+.cart-quick__remove {
+  padding: 4px;
+  opacity: 0.3;
   transition: opacity 300ms ease;
 }
 
-.nav-menu-enter-from,
-.nav-menu-leave-to {
-  opacity: 0;
+.cart-quick__remove:hover {
+  opacity: 1;
+  color: var(--danger);
 }
 
-/* ── Responsive ── */
+.cart-quick__remove svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cart-quick__footer {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+}
+
+.cart-quick__total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--space-md);
+  font-weight: var(--weight-bold);
+  color: var(--white);
+}
+
+.cart-quick__checkout {
+  display: block;
+  text-align: center;
+  background: var(--electric-lime);
+  color: var(--jungle-deep);
+  padding: var(--space-sm);
+  border-radius: 4px;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+}
+
+/* ── Transitions ── */
+.dropdown-enter-active,
+.dropdown-leave-active {
+  transition: all 400ms var(--ease-out-expo);
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
 @media (max-width: 768px) {
-  .navbar__logo-text {
-    font-size: var(--text-base);
-    letter-spacing: 0.1em;
-  }
-
-  .nav-overlay__link-text {
-    font-size: var(--text-2xl);
-  }
-
-  .nav-overlay__footer {
-    flex-direction: column;
-    gap: var(--space-md);
-    align-items: flex-start;
+  .navbar__dropdown {
+    min-width: 90vw;
   }
 }
 </style>

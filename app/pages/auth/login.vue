@@ -3,6 +3,16 @@
     <section class="section section--bone auth-section">
       <div class="container container--sm">
         <div class="auth-card">
+          <UiWildButton 
+            to="/" 
+            variant="ghost" 
+            size="sm" 
+            :arrow="true" 
+            :back="true"
+            class="auth-back-btn"
+          >
+            Home
+          </UiWildButton>
           <div class="auth-header">
             <h1 class="auth-title">Welcome Back</h1>
             <p class="auth-subtitle">Sign in to manage your bookings and sanctuary experiences.</p>
@@ -88,10 +98,12 @@ useHead({ title: 'Login' })
 </script>
 
 <style scoped>
-.auth-page { min-height: 80vh; display: flex; align-items: center; justify-content: center; }
-.auth-section { width: 100%; padding: var(--space-3xl) 0; }
-.auth-card { background: var(--white); padding: var(--space-3xl); border-radius: var(--radius-2xl); border: 1px solid var(--fog); box-shadow: var(--shadow-xl); }
-.auth-header { text-align: center; margin-bottom: var(--space-2xl); }
+.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding-top: 100px; padding-bottom: 50px; }
+.auth-section { width: 100%; padding: var(--space-xl) 0; }
+.auth-card { background: var(--white); padding: var(--space-3xl); border-radius: var(--radius-2xl); border: 1px solid var(--fog); box-shadow: var(--shadow-xl); position: relative; }
+.auth-back-btn { position: absolute; top: var(--space-lg); left: var(--space-lg); z-index: 10; opacity: 0.7; }
+.auth-back-btn:hover { opacity: 1; }
+.auth-header { text-align: center; margin-bottom: var(--space-2xl); margin-top: var(--space-xl); }
 .auth-title { font-family: var(--font-display); font-size: var(--text-3xl); color: var(--charcoal); margin-bottom: var(--space-sm); }
 .auth-subtitle { color: var(--charcoal-60); font-size: var(--text-md); }
 .auth-form { display: flex; flex-direction: column; gap: var(--space-xl); }
