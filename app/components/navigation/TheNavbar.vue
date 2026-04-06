@@ -467,8 +467,10 @@ onUnmounted(() => {
 .navbar__dropdown {
   position: absolute;
   top: calc(100% + 12px);
-  left: 0;
-  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100vw - 40px);
+  max-width: 1200px;
   pointer-events: auto;
   z-index: 1000;
 }
@@ -477,17 +479,16 @@ onUnmounted(() => {
   min-width: 360px;
 }
 
+@media (max-width: 768px) {
+  .navbar__dropdown {
+    width: calc(100vw - 32px);
+  }
+}
+
 @media (max-width: 480px) {
   .navbar__dropdown--cart {
-    min-width: 100%;
-    position: fixed;
-    top: auto;
-    bottom: 0;
-    left: 0;
-    padding: var(--space-md);
-    max-height: 80vh; /* Prevent overflow */
-    display: flex;
-    flex-direction: column;
+    min-width: unset;
+    width: calc(100vw - 24px);
   }
 }
 
@@ -656,9 +657,5 @@ onUnmounted(() => {
   transform: translateY(-10px);
 }
 
-@media (max-width: 768px) {
-  .navbar__dropdown {
-    min-width: 90vw;
-  }
-}
+
 </style>
