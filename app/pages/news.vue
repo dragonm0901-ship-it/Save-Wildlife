@@ -1,7 +1,15 @@
 <template>
   <div class="news-page">
     <section class="page-hero">
-      <img src="https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=1600&q=80" alt="Wildlife news" class="page-hero__bg" />
+      <NuxtImg 
+        src="https://images.unsplash.com/photo-1474511320723-9a56873571b7?w=1600&q=80"
+        alt="Wildlife news"
+        class="page-hero__bg"
+        loading="eager"
+        fetchpriority="high"
+        format="webp"
+        quality="80"
+      />
       <div class="page-hero__overlay"></div>
       <div class="container page-hero__content"><h1 class="page-hero__title">Latest News</h1><div class="page-hero__meta"><strong class="page-hero__label">Blog</strong><p>Stay updated with the latest stories from wildlife conservation and our sanctuary community.</p></div></div>
     </section>
@@ -9,7 +17,16 @@
       <div class="container">
         <div class="blog-listing">
           <NuxtLink v-for="post in posts" :key="post.slug" :to="`/blogs/${post.slug}`" class="blog-row">
-            <div class="blog-row__image"><img :src="post.image" :alt="post.title" loading="lazy" /></div>
+            <div class="blog-row__image">
+              <NuxtImg 
+                :src="post.image" 
+                :alt="post.title" 
+                loading="lazy" 
+                format="webp" 
+                quality="80"
+                width="600"
+              />
+            </div>
             <div class="blog-row__content">
               <div class="blog-row__meta"><span class="label" style="color:var(--canopy-green)">{{ post.category }}</span><span>{{ post.date }}</span></div>
               <h2 class="blog-row__title">{{ post.title }}</h2>
@@ -18,11 +35,6 @@
             </div>
           </NuxtLink>
         </div>
-      </div>
-    </section>
-    <section v-else-if="pending" class="section section--bone">
-      <div class="container">
-        <p>Loading latest news...</p>
       </div>
     </section>
   </div>

@@ -1,7 +1,15 @@
 <template>
   <div class="donation-page">
     <section class="page-hero">
-      <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=1600&q=80" alt="Wildlife conservation" class="page-hero__bg" />
+      <NuxtImg
+        src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=1600&q=80"
+        alt="Wildlife conservation"
+        class="page-hero__bg"
+        loading="eager"
+        fetchpriority="high"
+        format="webp"
+        quality="80"
+      />
       <div class="page-hero__overlay"></div>
       <div class="container page-hero__content">
         <h1 class="page-hero__title">Protect Nepal's<br/>Wild Heritage</h1>
@@ -45,7 +53,16 @@
         <div class="section-header"><span class="section-header__label">Stories of Impact</span><h2 class="section-header__title">See How Your Donations Help</h2></div>
         <div class="stories-grid">
           <div class="story-card" v-for="story in stories" :key="story.title">
-            <div class="story-card__image"><img :src="story.image" :alt="story.title" loading="lazy" /></div>
+            <div class="story-card__image">
+              <NuxtImg 
+                :src="story.image" 
+                :alt="story.title" 
+                loading="lazy" 
+                format="webp" 
+                quality="80"
+                width="500"
+              />
+            </div>
             <div class="story-card__content"><h4>{{ story.title }}</h4><p>{{ story.desc }}</p></div>
           </div>
         </div>

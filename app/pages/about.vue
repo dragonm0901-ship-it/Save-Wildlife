@@ -2,10 +2,14 @@
   <div class="about-page">
     <!-- Hero Banner -->
     <section class="page-hero">
-      <img
+      <NuxtImg
         src="https://images.unsplash.com/photo-1544136502-4fc51b73fe4b?w=1600&q=80"
         alt="Nepalese Himalayan landscape"
         class="page-hero__bg"
+        loading="eager"
+        fetchpriority="high"
+        format="webp"
+        quality="80"
       />
       <div class="page-hero__overlay"></div>
       <div class="container page-hero__content">
@@ -66,7 +70,14 @@
         <div class="team-grid">
           <div class="team-card" v-for="member in team" :key="member.name">
             <div class="team-card__image">
-              <img :src="member.image" :alt="member.name" loading="lazy" />
+              <NuxtImg 
+                :src="member.image" 
+                :alt="member.name" 
+                loading="lazy" 
+                format="webp" 
+                quality="80"
+                width="400"
+              />
               <div class="team-card__overlay">
                 <span class="team-card__bio">{{ member.bio }}</span>
               </div>

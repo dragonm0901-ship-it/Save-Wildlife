@@ -19,15 +19,20 @@
               :style="{ objectPosition: slide.position || '50% 50%' }"
               muted
               playsinline
-              preload="auto"
+              :preload="i === 0 ? 'auto' : 'none'"
+              :poster="slide.image"
+              :fetchpriority="i === 0 ? 'high' : 'auto'"
             ></video>
           </template>
-          <img
+          <NuxtImg
             v-else
             :src="slide.image"
             :alt="slide.alt"
             class="hero__slide-img"
-            loading="eager"
+            :loading="i === 0 ? 'eager' : 'lazy'"
+            :fetchpriority="i === 0 ? 'high' : 'auto'"
+            format="webp"
+            quality="80"
           />
           <div class="hero__slide-overlay"></div>
         </div>
@@ -59,7 +64,14 @@
           @click="goToSlide(i)"
           :aria-label="`Go to slide ${i + 1}`"
         >
-          <img :src="slide.thumb" :alt="slide.alt" />
+          <NuxtImg 
+            :src="slide.thumb" 
+            :alt="slide.alt" 
+            width="80" 
+            height="60" 
+            format="webp" 
+            quality="60"
+          />
         </button>
       </div>
 
@@ -134,10 +146,13 @@
 
               <div class="about-preview__visual">
                 <div class="about-preview__image">
-                  <img
+                  <NuxtImg
                     src="/images/about/dolphin.png"
                     alt="Endangered Gangetic river dolphin in the Rapti river rapids"
                     loading="lazy"
+                    format="webp"
+                    quality="80"
+                    width="600"
                   />
                   
                   <!-- Floating Visiting Card -->
@@ -178,7 +193,14 @@
               class="services-bg__layer"
               :class="{ 'services-bg__layer--active': activeService === i }"
             >
-              <img :src="service.image" :alt="service.title" class="services-bg__img" />
+              <NuxtImg 
+                :src="service.image" 
+                :alt="service.title" 
+                class="services-bg__img" 
+                loading="lazy"
+                format="webp"
+                quality="70"
+              />
             </div>
             <div class="services-bg__overlay"></div>
           </div>
@@ -226,11 +248,13 @@
       <!-- Ground Layer (Revealed Underneath) -->
       <div class="shutter-reveal__underlay">
         <section class="newsletter-section" id="newsletter-section">
-          <img
+          <NuxtImg
             src="https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=1600&q=80"
             alt="Wildlife keeper with giraffes"
             class="newsletter-section__bg"
             loading="lazy"
+            format="webp"
+            quality="70"
           />
           <div class="newsletter-section__overlay"></div>
           <div class="container newsletter-section__content">
@@ -274,7 +298,14 @@
                   class="event-card"
                 >
                   <div class="event-card__image">
-                    <img :src="event.image" :alt="event.title" loading="lazy" />
+                    <NuxtImg 
+                      :src="event.image" 
+                      :alt="event.title" 
+                      loading="lazy" 
+                      format="webp" 
+                      quality="80"
+                      width="400"
+                    />
                     <span class="event-card__badge label">EVENTS</span>
                   </div>
                   <div class="event-card__content">
@@ -541,7 +572,14 @@
             class="blog-card"
           >
             <div class="blog-card__image">
-              <img :src="post.image" :alt="post.title" loading="lazy" />
+              <NuxtImg 
+                :src="post.image" 
+                :alt="post.title" 
+                loading="lazy" 
+                format="webp" 
+                quality="80"
+                width="400"
+              />
             </div>
             <div class="blog-card__content">
               <div class="blog-card__meta">
@@ -573,7 +611,17 @@ if (process.client) {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-useHead({ title: null })
+useHead({
+  link: [
+    {
+      rel: 'preload',
+      as: 'video',
+      href: '/Hero Videos/Asiatic Elephant.mp4',
+      type: 'video/mp4',
+      fetchpriority: 'high'
+    }
+  ]
+})
 
 const { fadeUp, staggerChildren, clipReveal, refresh } = useGsapAnimations()
 
@@ -773,7 +821,7 @@ onMounted(async () => {
   resetSlideTimer()
   startServiceCycle()
 
-  // Initial play for first slide
+  // Initial play for first slide (immediate)
   if (videoRefs[0]) {
     videoRefs[0].play().catch(() => {})
   }
@@ -845,7 +893,7 @@ onMounted(async () => {
     }
 
     refresh()
-  }, 1200)
+  }, 300)
 })
 
 onUnmounted(() => {

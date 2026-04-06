@@ -1,7 +1,15 @@
 <template>
   <div class="service-detail" v-if="service">
     <section class="page-hero">
-      <img :src="service.image" :alt="service.title" class="page-hero__bg" />
+      <NuxtImg
+        :src="service.image"
+        :alt="service.title"
+        class="page-hero__bg"
+        loading="eager"
+        fetchpriority="high"
+        format="webp"
+        quality="80"
+      />
       <div class="page-hero__overlay"></div>
       <div class="container page-hero__content">
         <NuxtLink to="/services" class="breadcrumb">Services</NuxtLink>
